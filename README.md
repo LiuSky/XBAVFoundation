@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://github.com/LiuSky/XBAVFoundation/blob/master/mind.png?raw=true" title="思维导图">
-</p>
-
 ## Requirements:
 - **iOS** 9.0+
 - Xcode 10.1+

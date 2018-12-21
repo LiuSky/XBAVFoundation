@@ -11,7 +11,7 @@ import AVFoundation
 
 
 /// MARK - 播放协议
-public protocol XBAudioPlayerDelegate {
+public protocol XBAudioPlayerDelegate: NSObjectProtocol {
     
     /// 开始播放
     func playbackBegan()
@@ -25,7 +25,7 @@ public protocol XBAudioPlayerDelegate {
 open class XBAudioPlayer {
     
     /// 播放事件协议
-    public  var delegate: XBAudioPlayerDelegate?
+    public weak var delegate: XBAudioPlayerDelegate?
     
     /// 音频播放
     private(set) lazy var audioPlayer: AVAudioPlayer = {
@@ -42,6 +42,13 @@ open class XBAudioPlayer {
     init(url: URL) {
         self.url = url
         self.addInterruptionAndRouteChangeNotification()
+    }
+    
+    
+    /// 释放
+    deinit {
+        self.stop()
+        self.removeNotification()
     }
 }
 

@@ -75,6 +75,10 @@ final class XBAudioPlayerC: UIViewController {
         self.view.addSubview(self.stopButton)
         self.view.addSubview(self.pauseButton)
     }
+    
+    deinit {
+        debugPrint("释放")
+    }
 }
 
 
@@ -108,9 +112,6 @@ extension XBAudioPlayerC: XBAudioPlayerDelegate {
     func playbackStopped() {
         self.stateLabel.text = "暂停播放"
     }
-    
-    
-    
 }
 
 
