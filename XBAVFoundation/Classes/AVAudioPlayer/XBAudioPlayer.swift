@@ -103,7 +103,7 @@ extension XBAudioPlayer {
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
     }
     
-    /// 中断通知事件
+    /// 中断通知事件(一般指的是电话接入,或者其他App播放音视频等)
     @objc private func interruption(notification: NSNotification) {
         
         guard let userInfo = notification.userInfo,
