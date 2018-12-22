@@ -22,9 +22,9 @@ public protocol XBAudioPlayerDelegate: NSObjectProtocol {
 
 
 /// MARK - 音频播放类
-open class XBAudioPlayer {
+open class XBAudioPlayer: XBAudioSessionProtocol {
     
-    /// 播放事件协议
+    /// 播放事public 件协议
     public weak var delegate: XBAudioPlayerDelegate?
     
     /// 音频播放
@@ -44,7 +44,6 @@ open class XBAudioPlayer {
         self.addInterruptionAndRouteChangeNotification()
     }
     
-    
     /// 释放
     deinit {
         self.stop()
@@ -57,7 +56,7 @@ open class XBAudioPlayer {
 extension XBAudioPlayer {
     
     public func play() {
-        self.setCategory()
+        self.setCategory(.playback)
         self.setActive(true)
         self.audioPlayer.play()
     }
@@ -69,24 +68,6 @@ extension XBAudioPlayer {
     
     public func pause() {
         self.audioPlayer.pause()
-    }
-    
-    
-    /// 设置音频会话分类
-    public func setCategory() {
-        
-        let sesion = AVAudioSession.sharedInstance()
-        if #available(iOS 10.0, *) {
-            try? sesion.setCategory(.playback, mode: .default)
-        } else {
-            // Workaround until https://forums.swift.org/t/using-methods-marked-unavailable-in-swift-4-2/14949 isn't fixed
-            sesion.perform(NSSelectorFromString("setCategory:error:"), with: AVAudioSession.Category.playback)
-        }
-    }
-    
-    /// 设置会话是否活动
-    public func setActive(_ active: Bool) {
-        try? AVAudioSession.sharedInstance().setActive(active, options: AVAudioSession.SetActiveOptions.notifyOthersOnDeactivation)
     }
 }
 

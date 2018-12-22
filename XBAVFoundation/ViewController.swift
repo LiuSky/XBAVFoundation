@@ -25,13 +25,14 @@ final class ViewController: UIViewController {
     }()
     
     /// 数据源
-    private lazy var data = ["AVAudioPlayer演示"]
+    private lazy var data = ["AVSpeechSynthesizer演示","AVAudioPlayer演示"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "AVFoundation"
         self.view.backgroundColor = UIColor.white
         self.view.addSubview(tableView)
+        
     }
 }
 
@@ -60,6 +61,11 @@ extension ViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 0:
+            
+            let vc = XBSpeechSynthesizerC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 1:
+            
             let vc = XBAudioPlayerC()
             self.navigationController?.pushViewController(vc, animated: true)
         default:

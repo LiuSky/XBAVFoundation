@@ -5,8 +5,9 @@
 
 ## Example
  To run the XBAVFoundation project </br>
- 1.AVAudioPlayer Demo </br>
- 2.待续
+ 1.AVSpeechSynthesizer Demo </br>
+ 2.AVAudioPlayer Demo </br>
+ 3.待续
 
 ## License
 
