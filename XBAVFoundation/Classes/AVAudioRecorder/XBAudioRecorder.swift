@@ -127,16 +127,6 @@ extension XBAudioRecorder {
         
         return permissionCheck
     }
-    
-//    /// 获取录音路径
-//    open class func getRecorderPath() -> String {
-//
-//        let recorderPath: NSString = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0] as NSString
-//        let now = Date()
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyyMMddHHmmssSSS"
-//        return recorderPath.appendingPathComponent("\(dateFormatter.string(from: now))-sound.m4a")
-//    }
 }
 
 
@@ -217,5 +207,6 @@ extension XBAudioRecorder: AVAudioRecorderDelegate {
     
     public func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
         debugPrint("错误")
+        self.setActive(false)
     }
 }

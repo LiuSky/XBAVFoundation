@@ -34,7 +34,6 @@ final class ViewController: UIViewController {
         self.navigationItem.title = "AVFoundation"
         self.view.backgroundColor = UIColor.white
         self.view.addSubview(tableView)
-        
     }
 }
 
