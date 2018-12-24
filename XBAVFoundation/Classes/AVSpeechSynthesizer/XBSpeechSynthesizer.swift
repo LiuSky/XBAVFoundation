@@ -37,6 +37,10 @@ open class XBSpeechSynthesizer: NSObject, XBAudioSessionProtocol {
     
     /// 初始化
     public override init() {}
+    
+    deinit {
+        debugPrint("释放")
+    }
 }
 
 

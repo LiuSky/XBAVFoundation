@@ -73,7 +73,7 @@ final class XBSpeechSynthesizerC: UIViewController {
     /// 继续按钮
     private lazy var continueButton: UIButton = {
         let tem = UIButton(type: .custom)
-        tem.backgroundColor = UIColor.lightGray
+        tem.backgroundColor = UIColor.yellow
         tem.setTitle("继续", for: .normal)
         tem.setTitleColor(UIColor.white, for: .normal)
         tem.frame = CGRect(x: 10, y: self.pauseButton.frame.maxY + 20, width: self.view.frame.width - 10 * 2, height: 40)
@@ -105,6 +105,11 @@ final class XBSpeechSynthesizerC: UIViewController {
         super.touchesBegan(touches, with: event)
         self.view.endEditing(true)
     }
+    
+    deinit {
+        self.stop()
+        debugPrint("释放语音合成控制器")
+    }
 }
 
 
@@ -117,7 +122,8 @@ extension XBSpeechSynthesizerC {
             return
         }
         
-        self.speechSynthesizer.play(self.textView.text, complete: { (com) in
+        self.speechSynthesizer.play(self.textView.text, complete: { [weak self] (com) in
+            guard let self = self else { return }
             self.stateLabel.text = "播放完成"
         })
         

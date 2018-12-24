@@ -25,7 +25,9 @@ final class ViewController: UIViewController {
     }()
     
     /// 数据源
-    private lazy var data = ["AVSpeechSynthesizer演示","AVAudioPlayer演示"]
+    private lazy var data = ["AVSpeechSynthesizer演示",
+                             "AVAudioPlayer演示",
+                             "AVAudioRecorder演示"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +69,9 @@ extension ViewController: UITableViewDelegate {
         case 1:
             
             let vc = XBAudioPlayerC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 2:
+            let vc = XBAudioRecorderC()
             self.navigationController?.pushViewController(vc, animated: true)
         default:
             break
