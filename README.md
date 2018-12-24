@@ -7,7 +7,8 @@
  To run the XBAVFoundation project </br>
  1.AVSpeechSynthesizer Demo </br>
  2.AVAudioPlayer Demo </br>
- 3.待续
+ 3.AVAudioRecorderDemo </br>
+ 4.待续
 
 ## License
 
