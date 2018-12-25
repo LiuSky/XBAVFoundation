@@ -40,19 +40,17 @@ final class XBAudioRecorderWeChatC: UIViewController {
         return temButton
     }()
     
-//    //是否取消录音  默认为NO
+    //是否取消录音  默认为NO
     private var isCancelled: Bool = false
     //是否正在录音  默认NO
     private var isRecording: Bool = false
-//
-//    /// 判断是不是超出了录音最大时长
-//    private var isMaxTimeStop: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "录音(仿微信)"
         self.view.addSubview(recorderButton)
+        self.audioRecorder.maxRecordTime = 20
         self.updateTimeDisplay()
         self.updateMeter()
     }
@@ -63,7 +61,16 @@ final class XBAudioRecorderWeChatC: UIViewController {
         
         self.audioRecorder.timerHandler = { [weak self] currentTime in
             guard let self = self else { return }
-            debugPrint(currentTime)
+            
+            let countdown: Int = Int(self.audioRecorder.maxRecordTime - currentTime)
+            if countdown <= 10 {
+                self.voiceRecordHUD.timeInterval = countdown
+            }
+            
+            /// 录音到最长了
+            if countdown <= 1 {
+                self.completeRecordVoice(self.recorderButton)
+            }
         }
     }
     
@@ -118,7 +125,7 @@ extension XBAudioRecorderWeChatC {
             
             sender.setBackgroundImage(UIImage(named: "VoiceBtn_Black")?.resizable, for: .normal)
             sender.setTitle("按住 说话", for: .normal)
-            self.voiceRecordHUD.cancelRecordCompled { _ in }
+            self.voiceRecordHUD.cancelRecordCompled()
             self.audioRecorder.stop { (com, url) in
                 debugPrint("删除临时文件")
             }
@@ -137,9 +144,7 @@ extension XBAudioRecorderWeChatC {
             sender.setBackgroundImage(UIImage(named: "VoiceBtn_Black")?.resizable, for: .normal)
             sender.setTitle("按住 说话", for: .normal)
             
-            self.voiceRecordHUD.cancelRecordCompled {
-                _ in
-            }
+            self.voiceRecordHUD.cancelRecordCompled()
             self.audioRecorder.stop { (com, url) in
                 debugPrint(com, url)
             }
@@ -170,31 +175,6 @@ extension XBAudioRecorderWeChatC {
             self.isCancelled = true
         }
     }
-    
-    
-    private func finishRecorded() {
-        
-//        if self.audioRecorder.currentTimeInterval ?? 0 < 1 {
-//
-//
-//            self.voiceRecordHUD?.shortRecordCompled({ (_) in
-//                self.voiceRecordHUD = nil
-//                self.audioRecorderHelper.cancelledDelete {
-//
-//                }
-//            })
-//        } else {
-//
-//            self.voiceRecordHUD?.stopRecordCompled({ (_) in
-//                self.voiceRecordHUD = nil
-//            })
-//
-//            self.audioRecorderHelper.stopRecording {
-//
-//            }
-//        }
-    }
-    
 }
 
 

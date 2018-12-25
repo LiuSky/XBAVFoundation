@@ -11,7 +11,6 @@
 		330CCF1021D0731000000924 /* XBAudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CCF0F21D0731000000924 /* XBAudioRecorder.swift */; };
 		330CCF1221D0E1CF00000924 /* XBAudioRecorderWeChatC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CCF1121D0E1CF00000924 /* XBAudioRecorderWeChatC.swift */; };
 		332DBCED21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332DBCEC21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift */; };
-		332DBCF121D1CDEE00F0B6C2 /* XBAudioRecorderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332DBCF021D1CDEE00F0B6C2 /* XBAudioRecorderHelper.swift */; };
 		3330931821CE689E00DB337E /* XBSpeechSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3330931721CE689E00DB337E /* XBSpeechSynthesizer.swift */; };
 		3330931A21CE6B5600DB337E /* XBAudioSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3330931921CE6B5600DB337E /* XBAudioSessionProtocol.swift */; };
 		3330931C21CE713300DB337E /* XBSpeechSynthesizerC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3330931B21CE713300DB337E /* XBSpeechSynthesizerC.swift */; };
@@ -42,7 +41,6 @@
 		330CCF0F21D0731000000924 /* XBAudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioRecorder.swift; sourceTree = "<group>"; };
 		330CCF1121D0E1CF00000924 /* XBAudioRecorderWeChatC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioRecorderWeChatC.swift; sourceTree = "<group>"; };
 		332DBCEC21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBVoiceRecordHUD.swift; sourceTree = "<group>"; };
-		332DBCF021D1CDEE00F0B6C2 /* XBAudioRecorderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioRecorderHelper.swift; sourceTree = "<group>"; };
 		3330931721CE689E00DB337E /* XBSpeechSynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSpeechSynthesizer.swift; sourceTree = "<group>"; };
 		3330931921CE6B5600DB337E /* XBAudioSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioSessionProtocol.swift; sourceTree = "<group>"; };
 		3330931B21CE713300DB337E /* XBSpeechSynthesizerC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSpeechSynthesizerC.swift; sourceTree = "<group>"; };
@@ -104,11 +102,10 @@
 		3330931D21CE781B00DB337E /* AVAudioRecorder */ = {
 			isa = PBXGroup;
 			children = (
-				330CCF0D21D06CC600000924 /* XBAudioRecorderC.swift */,
 				330CCF0F21D0731000000924 /* XBAudioRecorder.swift */,
+				330CCF0D21D06CC600000924 /* XBAudioRecorderC.swift */,
 				330CCF1121D0E1CF00000924 /* XBAudioRecorderWeChatC.swift */,
 				332DBCEC21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift */,
-				332DBCF021D1CDEE00F0B6C2 /* XBAudioRecorderHelper.swift */,
 			);
 			path = AVAudioRecorder;
 			sourceTree = "<group>";
@@ -353,7 +350,6 @@
 				332DBCED21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift in Sources */,
 				3330931A21CE6B5600DB337E /* XBAudioSessionProtocol.swift in Sources */,
 				3330931C21CE713300DB337E /* XBSpeechSynthesizerC.swift in Sources */,
-				332DBCF121D1CDEE00F0B6C2 /* XBAudioRecorderHelper.swift in Sources */,
 				3330931821CE689E00DB337E /* XBSpeechSynthesizer.swift in Sources */,
 				333ED71221CCCDBD009EB829 /* XBAudioPlayer.swift in Sources */,
 				333ED6F021CCCA86009EB829 /* AppDelegate.swift in Sources */,
