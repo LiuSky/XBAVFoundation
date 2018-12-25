@@ -105,7 +105,6 @@ final class XBAudioRecorderC: UIViewController, XBAudioSessionProtocol {
         self.configView()
         self.updateTimeDisplay()
         self.updateMeter()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleSecondaryAudio(notification:)), name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
     }
     
     /// 配置View
@@ -118,21 +117,6 @@ final class XBAudioRecorderC: UIViewController, XBAudioSessionProtocol {
         self.view.addSubview(pauseButton)
         self.view.addSubview(playButton)
     }
-    
-    @objc func handleSecondaryAudio(notification: Notification) {
-        // Determine hint type
-        guard let userInfo = notification.userInfo,
-            let typeValue = userInfo[AVAudioSessionSilenceSecondaryAudioHintTypeKey] as? UInt,
-            let type = AVAudioSession.SilenceSecondaryAudioHintType(rawValue: typeValue) else {
-                return
-        }
-        
-        if type == .begin {
-            debugPrint("其他应用音频开始播放-静音辅助音频")
-        } else {
-            debugPrint("其他应用音频停止播放-重新启动二次音频")
-        }
-    }
 }
 
 
@@ -141,7 +125,15 @@ extension XBAudioRecorderC {
     
     /// 准备
     @objc private func prepareToRecord() {
-        self.audioRecorder.prepareToRecord()
+        
+        self.timeLabel.text = "准备录音"
+        self.audioRecorder.prepareToRecord { (com) in
+            if com {
+                self.timeLabel.text = "准备录音完成"
+            } else {
+                self.timeLabel.text = "准备录音失败"
+            }
+        }
     }
     
     /// 开始录音

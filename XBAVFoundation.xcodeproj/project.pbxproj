@@ -10,6 +10,8 @@
 		330CCF0E21D06CC600000924 /* XBAudioRecorderC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CCF0D21D06CC600000924 /* XBAudioRecorderC.swift */; };
 		330CCF1021D0731000000924 /* XBAudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CCF0F21D0731000000924 /* XBAudioRecorder.swift */; };
 		330CCF1221D0E1CF00000924 /* XBAudioRecorderWeChatC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CCF1121D0E1CF00000924 /* XBAudioRecorderWeChatC.swift */; };
+		332DBCED21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332DBCEC21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift */; };
+		332DBCF121D1CDEE00F0B6C2 /* XBAudioRecorderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332DBCF021D1CDEE00F0B6C2 /* XBAudioRecorderHelper.swift */; };
 		3330931821CE689E00DB337E /* XBSpeechSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3330931721CE689E00DB337E /* XBSpeechSynthesizer.swift */; };
 		3330931A21CE6B5600DB337E /* XBAudioSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3330931921CE6B5600DB337E /* XBAudioSessionProtocol.swift */; };
 		3330931C21CE713300DB337E /* XBSpeechSynthesizerC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3330931B21CE713300DB337E /* XBSpeechSynthesizerC.swift */; };
@@ -22,6 +24,7 @@
 		333ED71421CCCDDC009EB829 /* XBAudioPlayerC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333ED71321CCCDDC009EB829 /* XBAudioPlayerC.swift */; };
 		333ED71821CCCF3B009EB829 /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 333ED71621CCCF3B009EB829 /* 1.mp3 */; };
 		333ED71921CCCF3B009EB829 /* 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 333ED71721CCCF3B009EB829 /* 2.mp3 */; };
+		E03B2796C91D6CAE1B239392 /* Pods_XBAVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 899FFF2A100F4DCEF127F441 /* Pods_XBAVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +41,8 @@
 		330CCF0D21D06CC600000924 /* XBAudioRecorderC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioRecorderC.swift; sourceTree = "<group>"; };
 		330CCF0F21D0731000000924 /* XBAudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioRecorder.swift; sourceTree = "<group>"; };
 		330CCF1121D0E1CF00000924 /* XBAudioRecorderWeChatC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioRecorderWeChatC.swift; sourceTree = "<group>"; };
+		332DBCEC21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBVoiceRecordHUD.swift; sourceTree = "<group>"; };
+		332DBCF021D1CDEE00F0B6C2 /* XBAudioRecorderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioRecorderHelper.swift; sourceTree = "<group>"; };
 		3330931721CE689E00DB337E /* XBSpeechSynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSpeechSynthesizer.swift; sourceTree = "<group>"; };
 		3330931921CE6B5600DB337E /* XBAudioSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioSessionProtocol.swift; sourceTree = "<group>"; };
 		3330931B21CE713300DB337E /* XBSpeechSynthesizerC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSpeechSynthesizerC.swift; sourceTree = "<group>"; };
@@ -54,6 +59,9 @@
 		333ED71321CCCDDC009EB829 /* XBAudioPlayerC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioPlayerC.swift; sourceTree = "<group>"; };
 		333ED71621CCCF3B009EB829 /* 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1.mp3; sourceTree = "<group>"; };
 		333ED71721CCCF3B009EB829 /* 2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 2.mp3; sourceTree = "<group>"; };
+		899FFF2A100F4DCEF127F441 /* Pods_XBAVFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XBAVFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D63FFEAA81A78EA37E133E52 /* Pods-XBAVFoundation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XBAVFoundation.release.xcconfig"; path = "Target Support Files/Pods-XBAVFoundation/Pods-XBAVFoundation.release.xcconfig"; sourceTree = "<group>"; };
+		DA4D5710811C57DA534B706C /* Pods-XBAVFoundation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XBAVFoundation.debug.xcconfig"; path = "Target Support Files/Pods-XBAVFoundation/Pods-XBAVFoundation.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E03B2796C91D6CAE1B239392 /* Pods_XBAVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +83,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		317DC98962C622B9BF27439C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DA4D5710811C57DA534B706C /* Pods-XBAVFoundation.debug.xcconfig */,
+				D63FFEAA81A78EA37E133E52 /* Pods-XBAVFoundation.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		3330931621CE685200DB337E /* AVSpeechSynthesizer */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +107,8 @@
 				330CCF0D21D06CC600000924 /* XBAudioRecorderC.swift */,
 				330CCF0F21D0731000000924 /* XBAudioRecorder.swift */,
 				330CCF1121D0E1CF00000924 /* XBAudioRecorderWeChatC.swift */,
+				332DBCEC21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift */,
+				332DBCF021D1CDEE00F0B6C2 /* XBAudioRecorderHelper.swift */,
 			);
 			path = AVAudioRecorder;
 			sourceTree = "<group>";
@@ -99,6 +119,8 @@
 				333ED6EE21CCCA86009EB829 /* XBAVFoundation */,
 				333ED70321CCCA8B009EB829 /* XBAVFoundationTests */,
 				333ED6ED21CCCA86009EB829 /* Products */,
+				317DC98962C622B9BF27439C /* Pods */,
+				37F71CCD1297F6070D57B740 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -163,6 +185,14 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		37F71CCD1297F6070D57B740 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				899FFF2A100F4DCEF127F441 /* Pods_XBAVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -170,9 +200,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 333ED70921CCCA8B009EB829 /* Build configuration list for PBXNativeTarget "XBAVFoundation" */;
 			buildPhases = (
+				30465B255A41D89B69531386 /* [CP] Check Pods Manifest.lock */,
 				333ED6E821CCCA86009EB829 /* Sources */,
 				333ED6E921CCCA86009EB829 /* Frameworks */,
 				333ED6EA21CCCA86009EB829 /* Resources */,
+				0A6B48CD020C0038FA9A4CA2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -265,14 +297,63 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0A6B48CD020C0038FA9A4CA2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-XBAVFoundation/Pods-XBAVFoundation-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-XBAVFoundation/Pods-XBAVFoundation-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		30465B255A41D89B69531386 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-XBAVFoundation-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		333ED6E821CCCA86009EB829 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				333ED6F221CCCA86009EB829 /* ViewController.swift in Sources */,
+				332DBCED21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift in Sources */,
 				3330931A21CE6B5600DB337E /* XBAudioSessionProtocol.swift in Sources */,
 				3330931C21CE713300DB337E /* XBSpeechSynthesizerC.swift in Sources */,
+				332DBCF121D1CDEE00F0B6C2 /* XBAudioRecorderHelper.swift in Sources */,
 				3330931821CE689E00DB337E /* XBSpeechSynthesizer.swift in Sources */,
 				333ED71221CCCDBD009EB829 /* XBAudioPlayer.swift in Sources */,
 				333ED6F021CCCA86009EB829 /* AppDelegate.swift in Sources */,
@@ -431,6 +512,7 @@
 		};
 		333ED70A21CCCA8B009EB829 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA4D5710811C57DA534B706C /* Pods-XBAVFoundation.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -450,6 +532,7 @@
 		};
 		333ED70B21CCCA8B009EB829 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D63FFEAA81A78EA37E133E52 /* Pods-XBAVFoundation.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

@@ -13,6 +13,9 @@ import AVFoundation
 /// MARK - 录音类
 open class XBAudioRecorder: NSObject, XBAudioSessionProtocol {
     
+    /// 准备完成
+    public typealias PrepareCompletionHandler = (_ complete: Bool) -> Void
+    
     /// 停止播放
     public typealias StopCompletionHandler = (_ complete: Bool, _ pathUrl: URL) -> Void
     
@@ -28,6 +31,9 @@ open class XBAudioRecorder: NSObject, XBAudioSessionProtocol {
     /// 分贝回调
     public var updateMeters: MetersHandler?
     
+    /// 最大录音时长(默认60)
+    public var maxRecordTime: TimeInterval = 60.0
+    
     /// 音频录音
     private(set) var recorder: AVAudioRecorder?
     
@@ -39,6 +45,14 @@ open class XBAudioRecorder: NSObject, XBAudioSessionProtocol {
     
     /// 停止录音完成事件
     private var stopCompletionHandler: StopCompletionHandler?
+    
+    /// 准备完成处理
+    private var prepareCompletionHandler: PrepareCompletionHandler?
+    
+    /// 队列
+    private lazy var queue: DispatchQueue = {
+        return DispatchQueue(label: "com.mike.XBAudioRecorder.queue")
+    }()
     
     /// MARK - 录音选项配置
     /// 1.音频格式(AVFormatIDKey): kAudioFormatMPEG4AAC 默认
@@ -67,12 +81,20 @@ open class XBAudioRecorder: NSObject, XBAudioSessionProtocol {
 // MARK: - public func
 extension XBAudioRecorder {
     
-    /// 准备播放
-    public func prepareToRecord() {
+    /// 准备播放(因为有时候其他的音乐正在播放,这时候就需要一个准备过程)
+    public func prepareToRecord(completionHandler: @escaping PrepareCompletionHandler)  {
         
-        self.setActive(true)
-        self.setCategory(.playAndRecord)
-        self.recorder?.prepareToRecord()
+        self.prepareCompletionHandler = completionHandler
+        /// 判断是否有其他的音乐正在播放
+        if AVAudioSession.sharedInstance().secondaryAudioShouldBeSilencedHint {
+            self.addNotification()
+            self.setCategory(.playAndRecord)
+            self.setActive(true)
+        } else {
+            self.setCategory(.playAndRecord)
+            self.setActive(true)
+            self.prepareToRecord()
+        }
     }
     
     /// 开始录音
@@ -85,6 +107,7 @@ extension XBAudioRecorder {
     
     /// 暂停录音
     public func pause() {
+        self.recorder?.record(forDuration: maxRecordTime)
         self.recorder?.pause()
     }
     
@@ -182,7 +205,6 @@ extension XBAudioRecorder {
     /// 刷新分贝
     @objc private func updateMeter() {
         
-        let queue = DispatchQueue(label: "com.mike.XBAudioRecoder.meter")
         queue.async {
            
             self.recorder?.updateMeters()
@@ -193,6 +215,40 @@ extension XBAudioRecorder {
                self.updateMeters?(Float(peakPowerForChannel))
             }
         }
+    }
+    
+    /// 添加静音二级音频提示通知
+    private func addNotification() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleSecondaryAudio(notification:)), name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
+    }
+    
+    /// 移除静音二级音频提示通知
+    private func removeNotification() {
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
+    }
+    
+    
+    /// MARK - 处理辅助音频通知
+    @objc func handleSecondaryAudio(notification: Notification) {
+        
+        guard let userInfo = notification.userInfo,
+            let typeValue = userInfo[AVAudioSessionSilenceSecondaryAudioHintTypeKey] as? UInt,
+            let type = AVAudioSession.SilenceSecondaryAudioHintType(rawValue: typeValue) else {
+                return
+        }
+        
+        if type == .begin {
+            debugPrint("其他应用音频开始播放-静音辅助音频")
+        } else {
+            self.prepareToRecord()
+        }
+    }
+    
+    /// 准备录音
+    private func prepareToRecord() {
+        
+        self.prepareCompletionHandler?(self.recorder?.prepareToRecord() ?? false)
     }
 }
 
