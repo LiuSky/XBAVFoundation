@@ -15,7 +15,7 @@ final class XBAVPlayerC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "视频，音频播放器"
+        self.navigationItem.title = "视频播放器"
         
         
     }
