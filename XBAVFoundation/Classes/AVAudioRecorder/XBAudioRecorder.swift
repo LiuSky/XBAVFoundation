@@ -84,16 +84,19 @@ extension XBAudioRecorder {
     /// 准备播放(因为有时候其他的音乐正在播放,这时候就需要一个准备过程)
     public func prepareToRecord(completionHandler: @escaping PrepareCompletionHandler)  {
         
-        self.prepareCompletionHandler = completionHandler
-        /// 判断是否有其他的音乐正在播放
-        if AVAudioSession.sharedInstance().secondaryAudioShouldBeSilencedHint {
-            self.addNotification()
-            self.setCategory(.playAndRecord)
-            self.setActive(true)
-        } else {
-            self.setCategory(.playAndRecord)
-            self.setActive(true)
-            self.prepareToRecord()
+        queue.async {
+           
+            self.prepareCompletionHandler = completionHandler
+            /// 判断是否有其他的音乐正在播放
+            if AVAudioSession.sharedInstance().secondaryAudioShouldBeSilencedHint {
+                self.addNotification()
+                self.setCategory(.playAndRecord)
+                self.setActive(true)
+            } else {
+                self.setCategory(.playAndRecord)
+                self.setActive(true)
+                self.prepareToRecord()
+            }
         }
     }
     
@@ -248,7 +251,9 @@ extension XBAudioRecorder {
     /// 准备录音
     private func prepareToRecord() {
         
-        self.prepareCompletionHandler?(self.recorder?.prepareToRecord() ?? false)
+        DispatchQueue.main.async {
+           self.prepareCompletionHandler?(self.recorder?.prepareToRecord() ?? false)
+        }
     }
 }
 
