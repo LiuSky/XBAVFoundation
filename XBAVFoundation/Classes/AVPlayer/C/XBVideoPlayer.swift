@@ -6,6 +6,7 @@
 //  Copyright © 2018 Sky. All rights reserved.
 //
 
+import UIKit
 import Foundation
 import AVFoundation
 
@@ -60,6 +61,12 @@ open class XBVideoPlayer: NSObject {
     
     /// 播放视图
     private weak var playerLayerView: XBPlayerLayer!
+    
+    /// 图像生成器(没办法生成m3u8格式)
+    private var imageGenerator: AVAssetImageGenerator?
+    
+    /// 视频数据源输出
+    private var playerItemVideoOutput: AVPlayerItemVideoOutput?
     
     /// 初始化加载超时时间
     private var loadingTimeOut: Int = Constant.kXBVideoPlayerLoadingTimeOut
@@ -229,8 +236,7 @@ open class XBVideoPlayer: NSObject {
     /// MARK - 释放
     deinit {
         
-        self.removePlayerObservers(player: self.player)
-        self.removePlayerItemObservers(playerItem: self.playerItem)
+        self.stop()
         self.removeInterruptionAndRouteChangeNotification()
         self.clearVideoPlayer()
         debugPrint("释放播放器")
@@ -330,6 +336,64 @@ extension XBVideoPlayer {
         }
     }
     
+    
+    
+    /// 生成首张缩略图
+    ///
+    /// - Parameter time: 时间
+    /// - Parameter width: 宽度
+    public func generateFirstThumbnails() -> UIImage? {
+        
+        let currentTime: CMTime = CMTimeMake(value: self.playerItem?.duration.value ?? 1, timescale: 1)
+        guard let buffer = self.playerItemVideoOutput?.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil) else {
+
+            return nil
+        }
+
+        let ciImage = CIImage(cvPixelBuffer: buffer)
+        let image = UIImage(ciImage: ciImage)
+        return image
+    }
+    
+    
+    /// 生成缩略图
+    ///
+    /// - Parameters:
+    ///   - times: 时间数组
+    ///   - width: 图片宽度
+    ///   - completion: 完成
+    public func generateThumbnails(_ times: [NSValue], width: CGFloat, completion: @escaping ([UIImage]?) -> Void) {
+        
+        guard let temAsset = self.playerItem?.asset,
+              times.count > 0 else {
+                completion(nil)
+            return
+        }
+        
+        self.imageGenerator = AVAssetImageGenerator(asset: temAsset)
+        self.imageGenerator?.maximumSize = CGSize(width: width, height: 0)
+        
+        var imageCount = times.count
+        var images: [UIImage] = []
+        
+        let handler: AVAssetImageGeneratorCompletionHandler = { (requestedTime, imageRef, actualTime, result, error) in
+        
+            if result == .succeeded,
+               let temImageRef = imageRef {
+               let image = UIImage(cgImage: temImageRef)
+                    images.append(image)
+               }
+        
+               imageCount = imageCount - 1
+               if imageCount == 0 {
+                    DispatchQueue.mainThread {
+                        completion(images)
+                    }
+                }
+         }
+        
+        self.imageGenerator?.generateCGImagesAsynchronously(forTimes: times, completionHandler: handler)
+    }
 }
 
 
@@ -480,7 +544,9 @@ extension XBVideoPlayer {
                           self.track.videoDuration = Int(duration)
                     }
                     
+                     self.playerItemVideoOutput = AVPlayerItemVideoOutput()
                      self.playerItem = AVPlayerItem(asset: temUrlAsset)
+                     self.playerItem?.add(self.playerItemVideoOutput!)
                     
                      /// 判断上次观看时间是否大于视频总时间
                      if self.track.lastTimeInSeconds > self.track.videoDuration {
@@ -496,7 +562,9 @@ extension XBVideoPlayer {
                         self.playerItem?.seek(to: CMTimeMakeWithSeconds(Float64(self.track!.lastTimeInSeconds), preferredTimescale: 1))
                      }
                     
+                    
                      self.player = AVPlayer(playerItem: self.playerItem!)
+                     self.player?.appliesMediaSelectionCriteriaAutomatically = true
                      self.playerLayerView?.config(player: self.player!)
                     
                 case .failed, .unknown:
