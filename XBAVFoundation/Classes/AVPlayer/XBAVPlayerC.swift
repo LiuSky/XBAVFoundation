@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVKit
 import SnapKit
 import AVFoundation
 
@@ -17,6 +18,7 @@ final class XBAVPlayerC: UIViewController, XBAudioSessionProtocol {
     private lazy var playerView: XBVideoPlayerView = {
         let temPlayerView = XBVideoPlayerView()
         temPlayerView.backgroundColor = UIColor.black
+        temPlayerView.playerLayer.videoGravity = .resizeAspect
         return temPlayerView
     }()
     
@@ -98,13 +100,11 @@ extension XBAVPlayerC {
     private func loadVideo() {
         
         
-        //        https://devstreaming-cdn.apple.com/videos/wwdc/2016/402h429l9d0hy98c9m6/402/hls_vod_mvp.m3u8
+        //https://devstreaming-cdn.apple.com/videos/wwdc/2016/402h429l9d0hy98c9m6/402/hls_vod_mvp.m3u8
         //http://wvideo.spriteapp.cn/video/2016/0328/56f8ec01d9bfe_wpd.mp4
-        guard let url = URL(string: "http://wvideo.spriteapp.cn/video/2016/0328/56f8ec01d9bfe_wpd.mp4") else {
+        guard let url = URL(string: "https://devstreaming-cdn.apple.com/videos/wwdc/2016/402h429l9d0hy98c9m6/402/hls_vod_mvp.m3u8") else {
             return
         }
-        //        let path = Bundle.main.path(forResource: "test_264", ofType: "mp4")
-        //        let url = URL(fileURLWithPath: path!)
         
         self.videoPlayer.loadVideo(withStreamURL: url)
     }

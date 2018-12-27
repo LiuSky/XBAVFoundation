@@ -233,6 +233,7 @@ open class XBVideoPlayer: NSObject {
     public init(playerLayerView: XBPlayerLayer) {
         self.playerLayerView = playerLayerView
         super.init()
+        self.addInterruptionAndRouteChangeNotification()
     }
     
     
@@ -1014,7 +1015,6 @@ extension XBVideoPlayer {
             let type = AVAudioSession.RouteChangeReason(rawValue: typeRawValue) else {
                 return
         }
-        
         
         if type == .oldDeviceUnavailable {
             
