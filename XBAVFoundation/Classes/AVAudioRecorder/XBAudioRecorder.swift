@@ -37,9 +37,6 @@ open class XBAudioRecorder: NSObject, XBAudioSessionProtocol {
     /// 音频录音
     private(set) var recorder: AVAudioRecorder?
     
-    /// 录音时间计时器
-    private var timer: Timer?
-    
     /// CADisplayLink与Timer的作用类似,不过它可以与现实刷新率自动同步
     private var displayLink: CADisplayLink?
     
@@ -103,7 +100,6 @@ extension XBAudioRecorder {
     /// 开始录音
     @discardableResult
     public func record() -> Bool {
-        self.startTimer()
         self.startMeteTimer()
         return self.recorder?.record() ?? false
     }
@@ -118,7 +114,6 @@ extension XBAudioRecorder {
     public func stop(completionHandler: @escaping StopCompletionHandler) {
         self.stopCompletionHandler = completionHandler
         self.recorder?.stop()
-        self.stopTimer()
         self.stopMeteTimer()
     }
 }
@@ -169,21 +164,6 @@ extension XBAudioRecorder {
         return URL(fileURLWithPath: tmpDir.appendingPathComponent("\(dateFormatter.string(from: now)).m4a"))
     }
     
-    /// 开始录音时长计时器
-    private func startTimer() {
-        
-        self.timer?.invalidate()
-        self.timer = Timer(timeInterval: 0.5, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        RunLoop.main.add(timer!, forMode: RunLoop.Mode.common)
-    }
-    
-    /// 停止录音时长计时器
-    private func stopTimer() {
-        self.updateTime()
-        self.timer?.invalidate()
-        self.timer = nil
-    }
-    
     /// 更新时间显示
     @objc private func updateTime() {
         
@@ -209,12 +189,13 @@ extension XBAudioRecorder {
     @objc private func updateMeter() {
         
         queue.async {
-           
+            
             self.recorder?.updateMeters()
             let peakPower: Double = Double(self.recorder?.averagePower(forChannel: 0) ?? 0)
             let alpha = 0.015
             let peakPowerForChannel = pow(10, (alpha * peakPower))
             DispatchQueue.main.async {
+               self.updateTime()
                self.updateMeters?(Float(peakPowerForChannel))
             }
         }

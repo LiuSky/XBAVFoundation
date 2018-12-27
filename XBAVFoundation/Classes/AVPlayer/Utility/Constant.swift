@@ -16,6 +16,7 @@ public struct Constant {
     public static let kXBVideoPlayerTracksKey = "tracks"
     public static let kXBVideoPlayerPlayableKey = "playable"
     public static let kXBVideoPlayerDurationKey = "duration"
+    public static let kXBVideoPlayerMediaSelectionOptions = "availableMediaCharacteristicsWithMediaSelectionOptions"
     
     // PlayerItem KVO
     public static let kXBVideoPlayerStatusKey = "status"

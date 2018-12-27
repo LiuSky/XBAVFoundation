@@ -68,6 +68,9 @@ open class XBVideoPlayer: NSObject {
     /// 视频数据源输出
     private var playerItemVideoOutput: AVPlayerItemVideoOutput?
     
+    /// 字幕数据
+    private(set) var subtitles: [String]?
+    
     /// 初始化加载超时时间
     private var loadingTimeOut: Int = Constant.kXBVideoPlayerLoadingTimeOut
     
@@ -326,9 +329,7 @@ extension XBVideoPlayer {
         self.state = XBVideoPlayerStatus.seeking
         self.seekToTime(inSecond: time) { [weak self] (finished) in
             
-            guard let `self` = self else {
-                return
-            }
+            guard let self = self else { return }
             
             if finished {
                 self.playContent()
@@ -393,6 +394,32 @@ extension XBVideoPlayer {
          }
         
         self.imageGenerator?.generateCGImagesAsynchronously(forTimes: times, completionHandler: handler)
+    }
+    
+    
+    
+    /// 选择字幕
+    ///
+    /// - Parameter subtitle: 字幕名称
+    public func subtitlesSelected(_ subtitle: String) {
+        
+        let mc = AVMediaCharacteristic.legible
+        guard let temAsset = self.playerItem?.asset,
+              let group = temAsset.mediaSelectionGroup(forMediaCharacteristic: mc) else {
+                return
+        }
+        
+        var selected = false
+        group.options.forEach { (options) in
+            if options.displayName == subtitle {
+                self.playerItem?.select(options, in: group)
+                selected = true
+            }
+        }
+        
+        if selected == false {
+            self.playerItem?.select(nil, in: group)
+        }
     }
 }
 
@@ -512,7 +539,8 @@ extension XBVideoPlayer {
         
         let keys = [Constant.kXBVideoPlayerTracksKey,
                     Constant.kXBVideoPlayerPlayableKey,
-                    Constant.kXBVideoPlayerDurationKey]
+                    Constant.kXBVideoPlayerDurationKey,
+                    Constant.kXBVideoPlayerMediaSelectionOptions]
         
         /// 异步载入完成
         let completionHandler: () -> Void = {
@@ -547,6 +575,7 @@ extension XBVideoPlayer {
                      self.playerItemVideoOutput = AVPlayerItemVideoOutput()
                      self.playerItem = AVPlayerItem(asset: temUrlAsset)
                      self.playerItem?.add(self.playerItemVideoOutput!)
+                     self.loadMediaOptions()
                     
                      /// 判断上次观看时间是否大于视频总时间
                      if self.track.lastTimeInSeconds > self.track.videoDuration {
@@ -690,8 +719,26 @@ extension XBVideoPlayer {
         }
     }
     
+    /// 加载资源中字幕数据(显示系统默认语言)
+    private func loadMediaOptions() {
+        
+        let mc = AVMediaCharacteristic.legible
+        guard let temAsset = self.playerItem?.asset,
+              let group = temAsset.mediaSelectionGroup(forMediaCharacteristic: mc) else {
+            return
+        }
+        
+        /// 如果有字幕则显示系统默认语言
+        let localeCurrent = Locale.current
+        let options = AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: localeCurrent)
+        let option = options.first
+        self.playerItem?.select(option, in: group)
+        
+        self.subtitles = group.options.map { $0.displayName }
+    }
     
-    /// MARK - 清除视频播放
+    
+    /// 清除视频播放
     private func clearVideoPlayer() {
         self.playerItem = nil
         self.player = nil

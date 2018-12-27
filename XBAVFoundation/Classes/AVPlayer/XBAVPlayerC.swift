@@ -27,6 +27,19 @@ final class XBAVPlayerC: UIViewController, XBAudioSessionProtocol {
         return temVideoPlayer
     }()
     
+    /// 切换字幕
+    private lazy var rightButton = UIBarButtonItem(title: "字幕", style: UIBarButtonItem.Style.done, target: self, action: #selector(eventForSwitch))
+    
+    
+    /// 显示标签
+    private lazy var displayLabel: UILabel = {
+        let temLabel = UILabel()
+        temLabel.textColor = UIColor.red
+        temLabel.textAlignment = .center
+        temLabel.text = "显示视频第一贞图像"
+        return temLabel
+    }()
+    
     /// 图片View
     private lazy var imageView: UIImageView = {
         let temImageView = UIImageView()
@@ -45,18 +58,34 @@ final class XBAVPlayerC: UIViewController, XBAudioSessionProtocol {
     }
     
     
+    deinit {
+        debugPrint("释放控制器")
+    }
+}
+
+
+// MARK: - private func
+extension XBAVPlayerC {
+    
     /// 配置View
     private func configView() {
         self.view.addSubview(playerView)
+        self.view.addSubview(displayLabel)
         self.view.addSubview(imageView)
     }
     
     /// 配置位置
     private func configLocation() {
+        
         self.playerView.snp.makeConstraints { (make) in
             make.left.right.equalTo(self.view)
             make.top.equalTo(64)
             make.height.equalTo(view.frame.width*9/16)
+        }
+        
+        self.displayLabel.snp.makeConstraints { (make) in
+            make.left.right.equalTo(self.view)
+            make.bottom.equalTo(self.imageView.snp.top).offset(-12)
         }
         
         self.imageView.snp.makeConstraints { (make) in
@@ -69,20 +98,53 @@ final class XBAVPlayerC: UIViewController, XBAudioSessionProtocol {
     private func loadVideo() {
         
         
-//        https://devstreaming-cdn.apple.com/videos/wwdc/2016/402h429l9d0hy98c9m6/402/hls_vod_mvp.m3u8
+        //        https://devstreaming-cdn.apple.com/videos/wwdc/2016/402h429l9d0hy98c9m6/402/hls_vod_mvp.m3u8
+        //http://wvideo.spriteapp.cn/video/2016/0328/56f8ec01d9bfe_wpd.mp4
         guard let url = URL(string: "http://wvideo.spriteapp.cn/video/2016/0328/56f8ec01d9bfe_wpd.mp4") else {
             return
         }
-//        let path = Bundle.main.path(forResource: "test_264", ofType: "mp4")
-//        let url = URL(fileURLWithPath: path!)
+        //        let path = Bundle.main.path(forResource: "test_264", ofType: "mp4")
+        //        let url = URL(fileURLWithPath: path!)
         
         self.videoPlayer.loadVideo(withStreamURL: url)
     }
     
-    deinit {
-        debugPrint("释放控制器")
+    /// 显示视频第一贞图像
+    private func displayImageView() {
+        
+        self.imageView.image = self.videoPlayer.generateFirstThumbnails()
+    }
+    
+    /// 是否有字幕
+    private func hasSubtitles() {
+        
+        guard let _ = videoPlayer.subtitles else {
+            self.navigationItem.rightBarButtonItem = nil
+            return
+        }
+        self.navigationItem.rightBarButtonItem = self.rightButton
+    }
+    
+    
+    /// 切换字幕事件
+    @objc private func eventForSwitch() {
+        
+        let subtitles = videoPlayer.subtitles!
+        let alertC = UIAlertController(title: "选择字幕", message: nil, preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "取消", style: UIAlertAction.Style.cancel, handler: nil)
+        for (index, item) in subtitles.enumerated() {
+            
+            alertC.addAction(UIAlertAction(title: item, style: UIAlertAction.Style.default, handler: { (action) in
+                self.videoPlayer.subtitlesSelected(subtitles[index])
+            }))
+        }
+        
+        alertC.addAction(cancelAction)
+        self.present(alertC, animated: true, completion: nil)
     }
 }
+
 
 
 // MARK: - <#XBVideoPlayerDelegate#>
@@ -121,18 +183,9 @@ extension XBAVPlayerC: XBVideoPlayerDelegate {
         switch toState {
         case .readyToPlay:
             videoPlayer.play()
-//            debugPrint(track.videoType)
-//            debugPrint(track.videoDuration)
+            self.displayImageView()
+            self.hasSubtitles()
             
-            /// 时间
-            let time = CMTimeMake(value: 1, timescale: 1)
-            let times: [NSValue] = [NSValue(time: time)]
-            videoPlayer.generateThumbnails(times, width: self.view.frame.width) { (images) in
-                guard let temImages = images else {
-                    return
-                }
-                self.imageView.image = temImages[0]
-            }
         default:
             break
         }
