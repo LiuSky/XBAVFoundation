@@ -36,7 +36,6 @@ final class XBAudioRecorderWeChatC: UIViewController {
         temButton.addTarget(self, action: #selector(completeRecordVoice(_:)), for: .touchUpInside)
         temButton.addTarget(self, action: #selector(updateCancelRecordVoice(_:)), for: .touchDragExit)
         temButton.addTarget(self, action: #selector(updateContinueRecordVoice(_:)), for: .touchDragEnter)
-        temButton.frame = CGRect(x: 40, y: 400, width: self.view.frame.width - 40 * 2, height: 40)
         return temButton
     }()
     
@@ -49,10 +48,21 @@ final class XBAudioRecorderWeChatC: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "录音(仿微信)"
-        self.view.addSubview(recorderButton)
+        self.configUI()
         self.audioRecorder.maxRecordTime = 20
         self.updateTimeDisplay()
         self.updateMeter()
+    }
+    
+    /// 配置UI
+    private func configUI() {
+        self.view.addSubview(recorderButton)
+        recorderButton.snp.makeConstraints { (make) in
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+            make.bottom.equalTo(-20)
+            make.height.equalTo(40)
+        }
     }
     
     
@@ -68,7 +78,7 @@ final class XBAudioRecorderWeChatC: UIViewController {
             }
             
             /// 录音到最长了
-            if countdown <= 1 {
+            if countdown <= 0 {
                 self.completeRecordVoice(self.recorderButton)
             }
         }
