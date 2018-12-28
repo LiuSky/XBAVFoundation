@@ -8,10 +8,11 @@
 
 import UIKit
 import SnapKit
+import AVFoundation
 
 /// MARK - 微信录音模仿
 final class XBAudioRecorderWeChatC: UIViewController {
-
+    
     /// 录音帮助类
     private lazy var audioRecorder: XBAudioRecorder = XBAudioRecorder()
     
@@ -41,6 +42,7 @@ final class XBAudioRecorderWeChatC: UIViewController {
     
     //是否取消录音  默认为NO
     private var isCancelled: Bool = false
+    
     //是否正在录音  默认NO
     private var isRecording: Bool = false
     
@@ -100,28 +102,37 @@ extension XBAudioRecorderWeChatC {
     /// 开始录音
     @objc private func startRecordVoice(_ sender: UIButton) {
         
-        
-        if XBAudioRecorder.checkMicPermission() {
+        AVAudioSession.sharedInstance().requestRecordPermission {
+            [unowned self] granted in
             
-            self.recorderButton.setTitle("松开 结束", for: .normal)
-            self.recorderButton.setBackgroundImage(UIImage(named: "VoiceBtn_BlackHL")?.resizable, for: .normal)
-            
-            
-            self.voiceRecordHUD.startRecordingHUD(at: self.view)
-            self.voiceRecordHUD.snp.makeConstraints { (make) in
-                make.centerX.equalTo(self.view)
-                make.centerY.equalTo(self.view).offset(-44)
-                make.size.equalTo(CGSize(width: 150, height: 150))
-            }
-            
-            self.audioRecorder.prepareToRecord { [weak self] (com) in
-                guard let self = self else { return }
-                if com {
-                    self.isRecording = true
-                    self.audioRecorder.record()
+            if granted {
+                
+                DispatchQueue.main.async {
+                    self.recorderButton.setTitle("松开 结束", for: .normal)
+                    self.recorderButton.setBackgroundImage(UIImage(named: "VoiceBtn_BlackHL")?.resizable, for: .normal)
+                    
+                    
+                    self.voiceRecordHUD.startRecordingHUD(at: self.view)
+                    self.voiceRecordHUD.snp.makeConstraints { (make) in
+                        make.centerX.equalTo(self.view)
+                        make.centerY.equalTo(self.view).offset(-44)
+                        make.size.equalTo(CGSize(width: 150, height: 150))
+                    }
+                    
+                    self.audioRecorder.prepareToRecord { [weak self] (com) in
+                        guard let self = self else { return }
+                        if com {
+                            self.isRecording = true
+                            self.audioRecorder.record()
+                        }
+                    }
                 }
+            } else {
+                debugPrint("拒绝录音权限")
             }
-        } else {
+        }
+        
+        if AVAudioSession.sharedInstance().recordPermission == .denied {
             debugPrint("无权限")
         }
         
@@ -197,3 +208,4 @@ extension UIImage {
         return self.resizableImage(withCapInsets: UIEdgeInsets(top: heightFloat, left: widthFloat, bottom: heightFloat, right: widthFloat))
     }
 }
+
