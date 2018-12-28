@@ -39,6 +39,13 @@ open class XBAudioPlayer: XBAudioSessionProtocol {
     /// 播放地址
     private var url: URL
     
+    /// 默认只播放一次
+    public var numberOfLoops: Int = 0 {
+        didSet {
+            self.audioPlayer.numberOfLoops = numberOfLoops
+        }
+    }
+    
     init(url: URL) {
         self.url = url
         self.addInterruptionAndRouteChangeNotification()
