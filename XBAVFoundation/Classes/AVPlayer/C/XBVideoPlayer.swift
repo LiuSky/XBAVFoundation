@@ -175,10 +175,20 @@ open class XBVideoPlayer: NSObject {
     /// 音量
     public var volume: Float {
         set {
-            self.player?.volume = volume
+            self.player?.volume = min(max(0, volume), 1)
         }
         get {
             return self.player?.volume ?? 0
+        }
+    }
+    
+    /// 指示播放器的音频输出是否静音,只影响音频静音的播放器实例，而不是设备
+    public var isMuted: Bool {
+        set {
+            self.player?.isMuted = isMuted
+        }
+        get {
+            return self.player?.isMuted ?? false
         }
     }
     
@@ -575,6 +585,7 @@ extension XBVideoPlayer {
                     
                      self.playerItemVideoOutput = AVPlayerItemVideoOutput()
                      self.playerItem = AVPlayerItem(asset: temUrlAsset)
+                     self.playerItem?.canUseNetworkResourcesForLiveStreamingWhilePaused = false
                      self.playerItem?.add(self.playerItemVideoOutput!)
                      self.loadMediaOptions()
                     
@@ -597,13 +608,16 @@ extension XBVideoPlayer {
                      self.player?.appliesMediaSelectionCriteriaAutomatically = true
                      self.playerLayerView?.config(player: self.player!)
                     
+                    if #available(iOS 10.0, *) {
+                        self.playerItem?.preferredForwardBufferDuration = 1
+                        self.player?.automaticallyWaitsToMinimizeStalling = false
+                    }
                 case .failed, .unknown:
                     self.notify(XBVideoPlayerErrorStatus.assetLoadError, error: error)
                 default:
                     break
                 }
             }
-            
         }
         
         temUrlAsset.loadValuesAsynchronously(forKeys: keys, completionHandler: completionHandler)

@@ -106,6 +106,7 @@ extension XBAVPlayerC {
             return
         }
         
+        
         self.videoPlayer.loadVideo(withStreamURL: url)
     }
     
