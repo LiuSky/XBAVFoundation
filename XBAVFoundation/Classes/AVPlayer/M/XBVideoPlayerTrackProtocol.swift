@@ -27,7 +27,4 @@ public protocol XBVideoPlayerTrackProtocol: NSObjectProtocol {
     var isContinueLastWatchTime: Bool { get set }
     /// 上次视频播放时间位置
     var lastTimeInSeconds: Int { get set }
-    
-//    /// 异步加载请求Url
-//    func streamURL(withCompleteBlock completeBlock: @escaping (_ url: URL?) -> Void)
 }

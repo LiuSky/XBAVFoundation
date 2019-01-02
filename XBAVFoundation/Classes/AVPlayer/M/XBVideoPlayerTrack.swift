@@ -42,10 +42,6 @@ public class XBVideoPlayerTrack: NSObject, XBVideoPlayerTrackProtocol {
         self.streamURL = url
     }
     
-//    public func streamURL(withCompleteBlock completeBlock: @escaping (URL?) -> Void) {
-//        completeBlock(self.streamURL)
-//    }
-    
     /// MARK - 重置
     public func resetTrack() {
         
