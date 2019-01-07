@@ -9,20 +9,24 @@
 import UIKit
 import Foundation
 
+// PlayerItem Context
+public var videoPlayerItemStatusContext: Int = 101
+public var videoPlayerItemBufferEmptyContext: Int = 102
+public var videoPlayerItemLikelyToKeepUpContext: Int = 103
+
+
 /// MARK - 常数
 public struct Constant {
     
-    // Player KVO
-    public static let kXBVideoPlayerTracksKey = "tracks"
-    public static let kXBVideoPlayerPlayableKey = "playable"
-    public static let kXBVideoPlayerDurationKey = "duration"
-    public static let kXBVideoPlayerMediaSelectionOptions = "availableMediaCharacteristicsWithMediaSelectionOptions"
-    
     // PlayerItem KVO
-    public static let kXBVideoPlayerStatusKey = "status"
-    public static let kXBVideoPlayerBufferEmptyKey = "playbackBufferEmpty"
-    public static let kXBVideoPlayerLikelyToKeepUpKey = "playbackLikelyToKeepUp"
-
+    public static let kXBVideoPlayerItemStatusKey = "status"
+    public static let kXBVideoPlayerItemTracksKey = "tracks"
+    public static let kXBVideoPlayerItemDurationKey = "duration"
+    public static let kXBVideoPlayerItemCommonMetadata = "commonMetadata"
+    public static let kXBVideoPlayerItemsMediaSelectionOptions = "availableMediaCharacteristicsWithMediaSelectionOptions"
+    public static let kXBVideoPlayerItemBufferEmptyKey = "playbackBufferEmpty"
+    public static let kXBVideoPlayerItemLikelyToKeepUpKey = "playbackLikelyToKeepUp"
+    
     /// 加载超时时间
     public static let kXBVideoPlayerLoadingTimeOut: Int = 60
     /// 从指定时间开始加载超时时间

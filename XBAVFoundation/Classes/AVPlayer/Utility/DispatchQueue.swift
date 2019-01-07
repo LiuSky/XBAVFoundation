@@ -8,23 +8,17 @@
 
 import Foundation
 
+/// 主线程执行
+public func mainThread(execute closure: @escaping () -> Void) {
 
-// MARK: - DispatchQueue
-public extension DispatchQueue {
-    
-    /// 主线程执行
-    public static func mainThread(execute closure: @escaping () -> Void) {
-        
-        if Thread.isMainThread {
-            closure()
-        }
-        else {
-            DispatchQueue.main.async(execute: closure)
-        }
+    if Thread.isMainThread {
+        closure()
+    } else {
+        DispatchQueue.main.async(execute: closure)
     }
-    
-    /// 延迟执行
-    public static func after(_ delay: TimeInterval, execute closure: @escaping () -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: closure)
-    }
+}
+
+/// 延迟执行
+public func after(_ delay: TimeInterval, execute closure: @escaping () -> Void) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: closure)
 }

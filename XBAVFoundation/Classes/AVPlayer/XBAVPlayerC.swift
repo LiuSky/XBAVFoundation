@@ -183,10 +183,12 @@ extension XBAVPlayerC: XBVideoPlayerDelegate {
         
         switch toState {
         case .readyToPlay:
+            debugPrint("准备播放")
             videoPlayer.play()
             self.displayImageView()
             self.hasSubtitles()
-            
+        case .loading:
+            debugPrint("加载中...")
         default:
             break
         }

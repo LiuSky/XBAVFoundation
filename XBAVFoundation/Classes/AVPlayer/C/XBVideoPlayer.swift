@@ -20,10 +20,8 @@ open class XBVideoPlayer: NSObject {
         didSet {
             
             self.periodicTimeObserver = nil
-            self.removePlayerObservers(player: oldValue)
             
             guard let temPlayer = self.player else { return }
-            temPlayer.addObserver(self, forKeyPath: Constant.kXBVideoPlayerStatusKey, options: .new, context: nil)
             self.addPeriodicTimeObserver(player: temPlayer)
         }
     }
@@ -318,7 +316,7 @@ extension XBVideoPlayer {
     /// 停止播放
     public func stop() {
         
-        DispatchQueue.mainThread {
+        mainThread {
             
             if self.state == XBVideoPlayerStatus.unknown ||
                 (self.state == XBVideoPlayerStatus.stopped &&
@@ -398,7 +396,7 @@ extension XBVideoPlayer {
         
                imageCount = imageCount - 1
                if imageCount == 0 {
-                    DispatchQueue.mainThread {
+                    mainThread {
                         completion(images)
                     }
                 }
@@ -442,7 +440,7 @@ extension XBVideoPlayer {
     /// 播放内容
     private func playContent() {
         
-        DispatchQueue.mainThread  {
+        mainThread {
             self.state = XBVideoPlayerStatus.playing
         }
     }
@@ -548,15 +546,15 @@ extension XBVideoPlayer {
         self.urlAsset = temUrlAsset
         
         
-        let keys = [Constant.kXBVideoPlayerTracksKey,
-                    Constant.kXBVideoPlayerPlayableKey,
-                    Constant.kXBVideoPlayerDurationKey,
-                    Constant.kXBVideoPlayerMediaSelectionOptions]
+        let keys = [Constant.kXBVideoPlayerItemTracksKey,
+                    Constant.kXBVideoPlayerItemDurationKey,
+                    Constant.kXBVideoPlayerItemCommonMetadata,
+                    Constant.kXBVideoPlayerItemsMediaSelectionOptions]
         
         /// 异步载入完成
         let completionHandler: () -> Void = {
             
-            DispatchQueue.mainThread {
+            mainThread {
                 
                 guard self.state != .stopped else { return }
                 guard temUrlAsset.url.absoluteString == streamURL.absoluteString else {
@@ -567,7 +565,7 @@ extension XBVideoPlayer {
                 }
                 
                 var error: NSError?
-                let status = temUrlAsset.statusOfValue(forKey: Constant.kXBVideoPlayerTracksKey, error: &error)
+                let status = temUrlAsset.statusOfValue(forKey: Constant.kXBVideoPlayerItemTracksKey, error: &error)
                 switch status {
                 case .loaded:
                     
@@ -599,7 +597,6 @@ extension XBVideoPlayer {
                      if self.track.isContinueLastWatchTime &&
                         self.track.lastTimeInSeconds > 0 &&
                         self.track.videoType != XBVideoPlayerType.live {
-                        
                         self.playerItem?.seek(to: CMTimeMakeWithSeconds(Float64(self.track!.lastTimeInSeconds), preferredTimescale: 1))
                      }
                     
@@ -629,7 +626,7 @@ extension XBVideoPlayer {
     /// - Parameter completion: 回调
     private func pauseContentCompletion(_ completion: (() -> Void)? = nil) {
         
-        DispatchQueue.mainThread {
+        mainThread {
             
             switch self.playerItem?.status ?? .unknown {
             case .failed:
@@ -718,7 +715,7 @@ extension XBVideoPlayer {
     /// MARK - 通知超时
     private func notifyTimeOut(_ status: XBVideoPlayerTimeOutStatus) {
         
-        DispatchQueue.mainThread {
+        mainThread {
             self.player?.pause()
             self.saveLastWatchTime(withOldState: self.state)
             self.delegate?.videoPlayer(self, track: self.track, receivedTimeout: status)
@@ -797,19 +794,6 @@ extension XBVideoPlayer {
     }
     
     
-    /// 移除AVPlayer 观察者
-    ///
-    /// - Parameter player: AVPlayer
-    private func removePlayerObservers(player: AVPlayer?) {
-        
-        guard let temPlayer = player else {
-            return
-        }
-        temPlayer.replaceCurrentItem(with: nil)
-        temPlayer.removeObserver(self, forKeyPath: Constant.kXBVideoPlayerStatusKey)
-    }
-    
-    
     /// MARK ------------
     /// 添加PlayerItem观察者
     ///
@@ -817,9 +801,9 @@ extension XBVideoPlayer {
     private func addPlayerItemObservers(playerItem: AVPlayerItem) {
         
         
-        playerItem.addObserver(self, forKeyPath: Constant.kXBVideoPlayerStatusKey, options: .new, context: nil)
-        playerItem.addObserver(self, forKeyPath: Constant.kXBVideoPlayerBufferEmptyKey, options: .new, context: nil)
-        playerItem.addObserver(self, forKeyPath: Constant.kXBVideoPlayerLikelyToKeepUpKey, options: .new, context: nil)
+        playerItem.addObserver(self, forKeyPath: Constant.kXBVideoPlayerItemStatusKey, options: .new, context: &videoPlayerItemStatusContext)
+        playerItem.addObserver(self, forKeyPath: Constant.kXBVideoPlayerItemBufferEmptyKey, options: .new, context: &videoPlayerItemBufferEmptyContext)
+        playerItem.addObserver(self, forKeyPath: Constant.kXBVideoPlayerItemLikelyToKeepUpKey, options: .new, context: &videoPlayerItemLikelyToKeepUpContext)
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.playerDidPlayToEnd), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
@@ -836,9 +820,9 @@ extension XBVideoPlayer {
             return
         }
         
-        temPlayerItem.removeObserver(self, forKeyPath: Constant.kXBVideoPlayerStatusKey)
-        temPlayerItem.removeObserver(self, forKeyPath: Constant.kXBVideoPlayerBufferEmptyKey)
-        temPlayerItem.removeObserver(self, forKeyPath: Constant.kXBVideoPlayerLikelyToKeepUpKey)
+        temPlayerItem.removeObserver(self, forKeyPath: Constant.kXBVideoPlayerItemStatusKey)
+        temPlayerItem.removeObserver(self, forKeyPath: Constant.kXBVideoPlayerItemBufferEmptyKey)
+        temPlayerItem.removeObserver(self, forKeyPath: Constant.kXBVideoPlayerItemLikelyToKeepUpKey)
         
         NotificationCenter.default.removeObserver(self, name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: temPlayerItem)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.AVPlayerItemFailedToPlayToEndTime, object: temPlayerItem)
@@ -854,54 +838,46 @@ extension XBVideoPlayer {
     ///   - context: context
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
-        guard let temKeyPath = keyPath,
-              let temObject = object else {
+        guard let avPlayerItem = object as? AVPlayerItem,
+              let temContext = context else {
                 return
         }
         
-        if let avplay = temObject as? AVPlayer {
+        switch temContext {
+        case let x where x == &videoPlayerItemStatusContext:
             
-            if temKeyPath == Constant.kXBVideoPlayerStatusKey {
-                switch avplay.status {
-                case .failed:
-                    self.notify(XBVideoPlayerErrorStatus.avPlayerFail, error: avplay.error)
-                default:
-                    break
+            switch avPlayerItem.status {
+            case .readyToPlay:
+                self.state = XBVideoPlayerStatus.readyToPlay
+            case .failed:
+                self.notify(XBVideoPlayerErrorStatus.avPlayerItemFail, error: avPlayerItem.error)
+            default:
+                break
+            }
+        case let x where x == &videoPlayerItemBufferEmptyContext:
+            
+            // 当缓冲是空的时候
+            let isBufferEmpty = self.currentTime > 0 && (self.currentTime < self.duration - 1 || self.track.videoType == XBVideoPlayerType.live)
+            
+            if avPlayerItem.isPlaybackBufferEmpty && isBufferEmpty && self.state == XBVideoPlayerStatus.playing {
+                self.state = XBVideoPlayerStatus.buffering
+            }
+            
+        case let x where x == &videoPlayerItemLikelyToKeepUpContext:
+            
+            if avPlayerItem.isPlaybackLikelyToKeepUp {
+                
+                self.isEndToSeek = true
+                if self.isPlaying == false && self.state == XBVideoPlayerStatus.playing {
+                    self.player?.play()
+                }
+                if self.state == XBVideoPlayerStatus.buffering {
+                    self.state = XBVideoPlayerStatus.playing
                 }
             }
-        } else if let avPlayerItem = temObject as? AVPlayerItem {
             
-            if temKeyPath == Constant.kXBVideoPlayerBufferEmptyKey {
-                
-                // 当缓冲是空的时候
-                let isBufferEmpty = self.currentTime > 0 && (self.currentTime < self.duration - 1 || self.track.videoType == XBVideoPlayerType.live)
-                
-                if avPlayerItem.isPlaybackBufferEmpty && isBufferEmpty && self.state == XBVideoPlayerStatus.playing {
-                    self.state = XBVideoPlayerStatus.buffering
-                }
-            } else if temKeyPath == Constant.kXBVideoPlayerLikelyToKeepUpKey {
-                
-                if avPlayerItem.isPlaybackLikelyToKeepUp {
-                    
-                    self.isEndToSeek = true
-                    if self.isPlaying == false && self.state == XBVideoPlayerStatus.playing {
-                        self.player?.play()
-                    }
-                    if self.state == XBVideoPlayerStatus.buffering {
-                        self.state = XBVideoPlayerStatus.playing
-                    }
-                }
-            } else if temKeyPath == Constant.kXBVideoPlayerStatusKey {
-                
-                switch avPlayerItem.status {
-                case .readyToPlay:
-                    self.state = XBVideoPlayerStatus.readyToPlay
-                case .failed:
-                    self.notify(XBVideoPlayerErrorStatus.avPlayerItemFail, error: avPlayerItem.error)
-                default:
-                    break
-                }
-            }
+        default:
+            break
         }
     }
     
@@ -1014,7 +990,7 @@ extension XBVideoPlayer {
                 return
             }
             
-            DispatchQueue.after(0.3) {
+            after(0.3) {
                 self.play()
             }
         }
@@ -1040,7 +1016,7 @@ extension XBVideoPlayer {
             /// 原设备为耳机则暂停
             if portDescription.portType == .headphones {
                 //如果是在播放状态下拔出耳机，导致系统级暂停播放，而播放状态未改变
-                DispatchQueue.after(0.3) {
+                after(0.3) {
                     if self.state == .playing {
                         //只有在播放状态下才恢复播放
                         self.play()
