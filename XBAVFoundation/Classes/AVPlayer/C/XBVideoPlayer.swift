@@ -16,11 +16,8 @@ open class XBVideoPlayer: NSObject {
     
     /// AVPlayer
     private var player: AVPlayer? {
-        
         didSet {
-            
             self.periodicTimeObserver = nil
-            
             guard let temPlayer = self.player else { return }
             self.addPeriodicTimeObserver(player: temPlayer)
         }
@@ -159,7 +156,6 @@ open class XBVideoPlayer: NSObject {
     /// 播放速率
     public var rate: Float {
         set {
-            
             /// 待修改方式
             if state == .playing {
                 self.player?.rate = rate
@@ -523,7 +519,6 @@ extension XBVideoPlayer {
     private func playVideo(withStreamURL streamURL: URL, playerLayerView layerView: XBPlayerLayer) {
         
         guard self.state != XBVideoPlayerStatus.stopped else { return }
-        
         
         self.track.streamURL = streamURL
         self.state = XBVideoPlayerStatus.loading

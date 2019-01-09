@@ -61,9 +61,9 @@ public enum XBVideoPlayerTimeOutStatus: Int, CustomStringConvertible {
     
     ///  开始加载超时
     case timeOutLoad
-    ///  拉进度条的时候缓存seek超时
+    ///  拉进度条的时候缓冲seek超时
     case outSeek
-    ///  缓存超时
+    ///  缓冲超时
     case outBuffer
     
     public var description: String {
@@ -73,7 +73,7 @@ public enum XBVideoPlayerTimeOutStatus: Int, CustomStringConvertible {
         case .outSeek:
             return "拉进度条加载的时候超时"
         default:
-            return "缓存超时"
+            return "缓冲超时"
         }
     }
 }
