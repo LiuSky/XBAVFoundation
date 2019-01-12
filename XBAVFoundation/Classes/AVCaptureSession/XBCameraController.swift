@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Photos
 import Foundation
 import AVFoundation
 import AssetsLibrary
@@ -17,8 +16,9 @@ import AssetsLibrary
 private var cameraAdjustingExposureContext: Int = 103
 private var exposureKeyPath = "adjustingExposure"
 
+
 /// MARK - 照相机控制器
-open class XBCameraController: NSObject {
+open class XBCameraController: NSObject, AVCaptureFileOutputRecordingDelegate {
     
     /// 委托
     public weak var delegate: XBCameraControllerDelegate?
@@ -135,6 +135,12 @@ extension XBCameraController {
     /// 是否正在录音
     public var isRecording: Bool {
         return self.movieOutput.isRecording
+    }
+    
+    
+    /// 录音时间
+    public var recordedDuration: CMTime {
+        return self.movieOutput.recordedDuration
     }
 }
 
@@ -390,61 +396,70 @@ extension XBCameraController {
     }
     
     
-//    /// 开始录音
-//    public func startRecording() {
-//
-//        if !self.isRecording {
-//
-//            guard let videoConnection = self.movieOutput.connection(with: .video) else {
-//                debugPrint("失败")
-//                return
-//            }
-//
-//            if videoConnection.isVideoOrientationSupported {
-//                videoConnection.videoOrientation = self.currentVideoOrientation()
-//            }
-//
-//            if videoConnection.isVideoStabilizationSupported {
-//                videoConnection.preferredVideoStabilizationMode = .auto
-//            }
-//
-//            let device = self.activeCamera
-//            if device.isSmoothAutoFocusSupported {
-//
-//                do {
-//
-//                    try device.lockForConfiguration()
-//                    device.isSmoothAutoFocusEnabled = false
-//                    device.unlockForConfiguration()
-//
-//                } catch let error as NSError {
-//                    self.delegate?.deviceConfigurationFailed(error)
-//                }
-//            }
-//
-//
-////            self.outputURL = self.un
-//        }
-//
+    /// 开始录音
+    public func startRecording() {
+
+        if !self.isRecording {
+
+            guard let videoConnection = self.movieOutput.connection(with: .video) else {
+                debugPrint("失败")
+                return
+            }
+
+            if videoConnection.isVideoOrientationSupported {
+                videoConnection.videoOrientation = self.currentVideoOrientation()
+            }
+
+            if videoConnection.isVideoStabilizationSupported {
+                videoConnection.preferredVideoStabilizationMode = .auto
+            }
+
+            let device = self.activeCamera
+            if device.isSmoothAutoFocusSupported {
+
+                do {
+
+                    try device.lockForConfiguration()
+                    device.isSmoothAutoFocusEnabled = false
+                    device.unlockForConfiguration()
+
+                } catch let error as NSError {
+                    self.delegate?.deviceConfigurationFailed(error)
+                }
+            }
+
+
+            self.outputURL = self.uniqueURL()
+            self.movieOutput.startRecording(to: self.outputURL!, recordingDelegate: self)
+        }
+    }
     
-//            AVCaptureDevice *device = [self activeCamera];
-//
-//            if (device.isSmoothAutoFocusSupported) {                            // 5
-//                NSError *error;
-//                if ([device lockForConfiguration:&error]) {
-//                    device.smoothAutoFocusEnabled = NO;
-//                    [device unlockForConfiguration];
-//                } else {
-//                    [self.delegate deviceConfigurationFailedWithError:error];
-//                }
-//            }
-//
-//            self.outputURL = [self uniqueURL];                                  // 6
-//            [self.movieOutput startRecordingToOutputFileURL:self.outputURL      // 8
-//                recordingDelegate:self];
-//
-//        }
-//    }
+    
+    /// 停止录音
+    public func stopRecording() {
+        
+        if self.isRecording {
+            self.movieOutput.stopRecording()
+        }
+    }
+    
+    
+    /// 录制视频完成时
+    ///
+    /// - Parameters:
+    ///   - output: 捕捉文件输出
+    ///   - outputFileURL: 文件输出路径
+    ///   - connections: 连接
+    ///   - error: 错误
+    public func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        
+        if let temError = error {
+            self.delegate?.mediaCaptureFailed(temError as NSError)
+        } else {
+            self.writeVideo(toAssetsLibrary: outputFileURL)
+        }
+        self.outputURL = nil
+    }
 }
 
 
@@ -490,26 +505,81 @@ extension XBCameraController {
     /// - Parameter image: <#image description#>
     private func writeImage(toPhotoLibrary image: UIImage) {
         
-//        PHPhotoLibrary.shared().performChanges({
-//            let createRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-//
-//
-//        }) { (success, error) in
-//            <#code#>
-//        }
+        let library = ALAssetsLibrary()
+        library.writeImage(toSavedPhotosAlbum: image.cgImage!, orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue) ?? ALAssetOrientation.up) { (url, error) in
+            if let error = error {
+                debugPrint("保存失败")
+            } else {
+                debugPrint("通知")
+                self.postThumbnailNotifification(image)
+            }
+        }
+    }
+    
+    
+    /// 发送通知
+    private func postThumbnailNotifification(_ image: UIImage) {
         
-//        let library = ALAssetsLibrary() // 2
-//
-//        if let CGImage = image?.cgImage /* 3 */, let imageOrientation = ALAssetOrientation(rawValue: image?.imageOrientation /* 4 */.rawValue) {
-//            library.writeImage(toSavedPhotosAlbum: CGImage, orientation: imageOrientation, completionBlock: { assetURL, error in
-//                if error == nil {
-//                    self.postThumbnailNotifification(image) // 5
-//                } else {
-//                    let message = error?.localizedDescription
-//                    print("Error: \(message ?? "")")
-//                }
-//            })
-//        }
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.ThumbnailCreated, object: image)
+        }
+    }
+    
+    
+    
+    /// 创建一个唯一的临时文件路径
+    ///
+    /// - Returns: 路径
+    private func uniqueURL() -> URL {
+        
+        let directory = NSTemporaryDirectory()
+        let fileName = NSUUID().uuidString
+        let dirPath = NSURL.fileURL(withPathComponents: [directory, "\(fileName).mov"])
+        return dirPath!
+    }
+    
+    
+    
+    /// 视频写入相册
+    ///
+    /// - Parameter videoURL: 视频路径
+    private func writeVideo(toAssetsLibrary videoURL: URL) {
+        
+        let library = ALAssetsLibrary()
+        
+        if library.videoAtPathIs(compatibleWithSavedPhotosAlbum: videoURL) {
+            
+            library.writeVideoAtPath(toSavedPhotosAlbum: videoURL) { (url, error) in
+                
+                if let temError = error {
+                    self.delegate?.assetLibraryWriteFailed(temError as NSError)
+                } else {
+                    self.generateThumbnailForVideo(at: videoURL)
+                }
+                
+            }
+        }
+    }
+    
+    
+    /// 生成视频缩略图
+    ///
+    /// - Parameter videoURL: 路径
+    private func generateThumbnailForVideo(at videoURL: URL) {
+        
+        self.globalQueue.async {
+            
+            let asset = AVAsset(url: videoURL)
+            let imageGenerator = AVAssetImageGenerator(asset: asset)
+            imageGenerator.maximumSize = CGSize(width: 100, height: 0)
+            imageGenerator.appliesPreferredTrackTransform = true
+            
+            let imageRef = try! imageGenerator.copyCGImage(at: CMTime.zero, actualTime: nil)
+            let image = UIImage(cgImage: imageRef)
+            DispatchQueue.main.async {
+                self.postThumbnailNotifification(image)
+            }
+        }
     }
     
     
@@ -533,4 +603,3 @@ extension XBCameraController {
         return orientation!
     }
 }
-

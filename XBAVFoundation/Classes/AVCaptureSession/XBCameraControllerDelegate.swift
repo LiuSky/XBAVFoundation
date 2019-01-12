@@ -30,3 +30,12 @@ public protocol XBCameraControllerDelegate: NSObjectProtocol {
     /// - Throws: 错误原因
     func assetLibraryWriteFailed(_ error: NSError)
 }
+
+
+// MARK: - 通知名称
+public extension Notification {
+    
+    
+    /// 图片保存到相册通知
+    public static let ThumbnailCreated = Notification.Name(rawValue: "com.mike.camera.notification.name.thumbnailCreated")
+}
