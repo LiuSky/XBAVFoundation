@@ -387,8 +387,7 @@ extension XBCameraController {
             if let temSampleBuffer = sampleBuffer,
                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(temSampleBuffer),
                let image = UIImage(data: imageData)  {
-                debugPrint(image)
-                //do thing 写入在相册
+                self.writeImage(toPhotoLibrary: image)
             } else {
                 debugPrint("NUll sampleBuffer \(error?.localizedDescription ?? "")")
             }
@@ -410,10 +409,14 @@ extension XBCameraController {
                 videoConnection.videoOrientation = self.currentVideoOrientation()
             }
 
+            /// 会导致屏幕一闪
             if videoConnection.isVideoStabilizationSupported {
-                videoConnection.preferredVideoStabilizationMode = .auto
+                videoConnection.enablesVideoStabilizationWhenAvailable = true
+                //preferredVideoStabilizationMode = .auto
             }
-
+            
+            
+        
             let device = self.activeCamera
             if device.isSmoothAutoFocusSupported {
 
@@ -554,6 +557,7 @@ extension XBCameraController {
                 if let temError = error {
                     self.delegate?.assetLibraryWriteFailed(temError as NSError)
                 } else {
+                    debugPrint("录制写入成功")
                     self.generateThumbnailForVideo(at: videoURL)
                 }
                 

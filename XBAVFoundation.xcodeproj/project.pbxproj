@@ -11,10 +11,9 @@
 		330CCF1021D0731000000924 /* XBAudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CCF0F21D0731000000924 /* XBAudioRecorder.swift */; };
 		330CCF1221D0E1CF00000924 /* XBAudioRecorderWeChatC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CCF1121D0E1CF00000924 /* XBAudioRecorderWeChatC.swift */; };
 		332DBCED21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332DBCEC21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift */; };
-		332E669F21E863140049D4C7 /* XBCaptureSessionC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E669E21E863140049D4C7 /* XBCaptureSessionC.swift */; };
+		332E669F21E863140049D4C7 /* XBCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E669E21E863140049D4C7 /* XBCameraViewController.swift */; };
 		332E66A121E8683D0049D4C7 /* XBCameraControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E66A021E8683D0049D4C7 /* XBCameraControllerDelegate.swift */; };
 		332E66A321E86E410049D4C7 /* XBCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E66A221E86E410049D4C7 /* XBCameraController.swift */; };
-		332E66A521E89F700049D4C7 /* FileManager+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E66A421E89F700049D4C7 /* FileManager+.swift */; };
 		3330931821CE689E00DB337E /* XBSpeechSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3330931721CE689E00DB337E /* XBSpeechSynthesizer.swift */; };
 		3330931A21CE6B5600DB337E /* XBAudioSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3330931921CE6B5600DB337E /* XBAudioSessionProtocol.swift */; };
 		3330931C21CE713300DB337E /* XBSpeechSynthesizerC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3330931B21CE713300DB337E /* XBSpeechSynthesizerC.swift */; };
@@ -27,6 +26,7 @@
 		333ED71421CCCDDC009EB829 /* XBAudioPlayerC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333ED71321CCCDDC009EB829 /* XBAudioPlayerC.swift */; };
 		333ED71821CCCF3B009EB829 /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 333ED71621CCCF3B009EB829 /* 1.mp3 */; };
 		333ED71921CCCF3B009EB829 /* 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 333ED71721CCCF3B009EB829 /* 2.mp3 */; };
+		33A3633F21EC1E6800D6DE6D /* XBPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A3633E21EC1E6800D6DE6D /* XBPreviewView.swift */; };
 		33E2FB0721D318C900A0E099 /* XBAVPlayerC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E2FB0621D318C900A0E099 /* XBAVPlayerC.swift */; };
 		33E2FB0C21D351AD00A0E099 /* XBPlayerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E2FB0B21D351AD00A0E099 /* XBPlayerLayer.swift */; };
 		33E2FB0E21D351F500A0E099 /* XBVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E2FB0D21D351F500A0E099 /* XBVideoPlayerView.swift */; };
@@ -56,10 +56,9 @@
 		330CCF0F21D0731000000924 /* XBAudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioRecorder.swift; sourceTree = "<group>"; };
 		330CCF1121D0E1CF00000924 /* XBAudioRecorderWeChatC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioRecorderWeChatC.swift; sourceTree = "<group>"; };
 		332DBCEC21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBVoiceRecordHUD.swift; sourceTree = "<group>"; };
-		332E669E21E863140049D4C7 /* XBCaptureSessionC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBCaptureSessionC.swift; sourceTree = "<group>"; };
+		332E669E21E863140049D4C7 /* XBCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBCameraViewController.swift; sourceTree = "<group>"; };
 		332E66A021E8683D0049D4C7 /* XBCameraControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBCameraControllerDelegate.swift; sourceTree = "<group>"; };
 		332E66A221E86E410049D4C7 /* XBCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBCameraController.swift; sourceTree = "<group>"; };
-		332E66A421E89F700049D4C7 /* FileManager+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+.swift"; sourceTree = "<group>"; };
 		3330931721CE689E00DB337E /* XBSpeechSynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSpeechSynthesizer.swift; sourceTree = "<group>"; };
 		3330931921CE6B5600DB337E /* XBAudioSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioSessionProtocol.swift; sourceTree = "<group>"; };
 		3330931B21CE713300DB337E /* XBSpeechSynthesizerC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSpeechSynthesizerC.swift; sourceTree = "<group>"; };
@@ -76,6 +75,7 @@
 		333ED71321CCCDDC009EB829 /* XBAudioPlayerC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAudioPlayerC.swift; sourceTree = "<group>"; };
 		333ED71621CCCF3B009EB829 /* 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1.mp3; sourceTree = "<group>"; };
 		333ED71721CCCF3B009EB829 /* 2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 2.mp3; sourceTree = "<group>"; };
+		33A3633E21EC1E6800D6DE6D /* XBPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBPreviewView.swift; sourceTree = "<group>"; };
 		33E2FB0621D318C900A0E099 /* XBAVPlayerC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAVPlayerC.swift; sourceTree = "<group>"; };
 		33E2FB0B21D351AD00A0E099 /* XBPlayerLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBPlayerLayer.swift; sourceTree = "<group>"; };
 		33E2FB0D21D351F500A0E099 /* XBVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBVideoPlayerView.swift; sourceTree = "<group>"; };
@@ -123,10 +123,10 @@
 		332E669D21E861E70049D4C7 /* AVCaptureSession */ = {
 			isa = PBXGroup;
 			children = (
-				332E66A421E89F700049D4C7 /* FileManager+.swift */,
 				332E66A021E8683D0049D4C7 /* XBCameraControllerDelegate.swift */,
 				332E66A221E86E410049D4C7 /* XBCameraController.swift */,
-				332E669E21E863140049D4C7 /* XBCaptureSessionC.swift */,
+				332E669E21E863140049D4C7 /* XBCameraViewController.swift */,
+				33A3633E21EC1E6800D6DE6D /* XBPreviewView.swift */,
 			);
 			path = AVCaptureSession;
 			sourceTree = "<group>";
@@ -442,15 +442,15 @@
 				333ED6F221CCCA86009EB829 /* ViewController.swift in Sources */,
 				332DBCED21D1BAB400F0B6C2 /* XBVoiceRecordHUD.swift in Sources */,
 				332E66A121E8683D0049D4C7 /* XBCameraControllerDelegate.swift in Sources */,
-				332E669F21E863140049D4C7 /* XBCaptureSessionC.swift in Sources */,
+				332E669F21E863140049D4C7 /* XBCameraViewController.swift in Sources */,
 				3330931A21CE6B5600DB337E /* XBAudioSessionProtocol.swift in Sources */,
-				332E66A521E89F700049D4C7 /* FileManager+.swift in Sources */,
 				3330931C21CE713300DB337E /* XBSpeechSynthesizerC.swift in Sources */,
 				33E2FB1921D3588500A0E099 /* XBVideoPlayerEnum.swift in Sources */,
 				33E2FB1721D3586200A0E099 /* XBVideoPlayerTrackProtocol.swift in Sources */,
 				3330931821CE689E00DB337E /* XBSpeechSynthesizer.swift in Sources */,
 				33E2FB2121D3808500A0E099 /* AVPlayerItem+.swift in Sources */,
 				333ED71221CCCDBD009EB829 /* XBAudioPlayer.swift in Sources */,
+				33A3633F21EC1E6800D6DE6D /* XBPreviewView.swift in Sources */,
 				33E2FB1F21D3640500A0E099 /* XBVideoPlayerDelegate.swift in Sources */,
 				333ED6F021CCCA86009EB829 /* AppDelegate.swift in Sources */,
 				33E2FB1B21D3594800A0E099 /* XBVideoPlayerTrack.swift in Sources */,

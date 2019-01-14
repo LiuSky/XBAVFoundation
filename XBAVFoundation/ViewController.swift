@@ -82,7 +82,7 @@ extension ViewController: UITableViewDelegate {
             let vc = XBAVPlayerC()
             self.navigationController?.pushViewController(vc, animated: true)
         case 5:
-            let vc = XBCaptureSessionC()
+            let vc = XBCameraViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         default:
             break

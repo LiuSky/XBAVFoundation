@@ -27,6 +27,7 @@ extension XBAudioSessionProtocol {
         let sesion = AVAudioSession.sharedInstance()
         if #available(iOS 10.0, *) {
             try? sesion.setCategory(category, mode: .default)
+            
         } else {
             // Workaround until https://forums.swift.org/t/using-methods-marked-unavailable-in-swift-4-2/14949 isn't fixed
             sesion.perform(NSSelectorFromString("setCategory:error:"), with: category)
@@ -35,6 +36,7 @@ extension XBAudioSessionProtocol {
     
     /// 设置会话是否活动
     public func setActive(_ active: Bool) {
+        
         try? AVAudioSession.sharedInstance().setActive(active, options: AVAudioSession.SetActiveOptions.notifyOthersOnDeactivation)
     }
 }
