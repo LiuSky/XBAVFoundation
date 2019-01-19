@@ -10,7 +10,8 @@
  3.AVAudioRecorderDemo </br>
  4.微信录音Demo</br>
  5.AVPlayerDemo </br>
- 6.待续
+ 6.AVCaptureSessionDemo</br>
+ 7.待续
 
 ## License
 
