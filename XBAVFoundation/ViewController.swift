@@ -30,7 +30,8 @@ final class ViewController: UIViewController {
                              "AVAudioRecorder演示",
                              "AVAudioRecorder仿微信演示",
                              "AVPlayer演示",
-                             "AVCaptureSession演示",]
+                             "AVCaptureSession演示",
+                             "AVAudioEngine演示"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +84,9 @@ extension ViewController: UITableViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         case 5:
             let vc = XBCameraViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 6:
+            let vc = XBAudioEngineController()
             self.navigationController?.pushViewController(vc, animated: true)
         default:
             break

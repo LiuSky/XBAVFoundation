@@ -416,7 +416,6 @@ extension XBCameraController {
             }
             
             
-        
             let device = self.activeCamera
             if device.isSmoothAutoFocusSupported {
 
