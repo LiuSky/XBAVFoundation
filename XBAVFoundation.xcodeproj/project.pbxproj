@@ -22,6 +22,7 @@
 		3333019B223F6EC90024A8EA /* AudioSpectrumPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333019A223F6EC90024A8EA /* AudioSpectrumPlayer.swift */; };
 		3333019D223F6EE10024A8EA /* RealtimeAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333019C223F6EE10024A8EA /* RealtimeAnalyzer.swift */; };
 		3333019F223F74830024A8EA /* 3.Halcyon - Runaway (Feat. Valentina Franco) (Heuse Remix).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3333019E223F74830024A8EA /* 3.Halcyon - Runaway (Feat. Valentina Franco) (Heuse Remix).mp3 */; };
+		3334F9B12240DD6600AE5D63 /* XBAVMutableComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F9B02240DD6600AE5D63 /* XBAVMutableComposition.swift */; };
 		333ED6F021CCCA86009EB829 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333ED6EF21CCCA86009EB829 /* AppDelegate.swift */; };
 		333ED6F221CCCA86009EB829 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333ED6F121CCCA86009EB829 /* ViewController.swift */; };
 		333ED6F721CCCA8B009EB829 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 333ED6F621CCCA8B009EB829 /* Assets.xcassets */; };
@@ -72,6 +73,7 @@
 		3333019A223F6EC90024A8EA /* AudioSpectrumPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSpectrumPlayer.swift; sourceTree = "<group>"; };
 		3333019C223F6EE10024A8EA /* RealtimeAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeAnalyzer.swift; sourceTree = "<group>"; };
 		3333019E223F74830024A8EA /* 3.Halcyon - Runaway (Feat. Valentina Franco) (Heuse Remix).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "3.Halcyon - Runaway (Feat. Valentina Franco) (Heuse Remix).mp3"; sourceTree = "<group>"; };
+		3334F9B02240DD6600AE5D63 /* XBAVMutableComposition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAVMutableComposition.swift; sourceTree = "<group>"; };
 		333ED6EC21CCCA86009EB829 /* XBAVFoundation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XBAVFoundation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		333ED6EF21CCCA86009EB829 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		333ED6F121CCCA86009EB829 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -172,6 +174,14 @@
 			path = AVAudioEngine;
 			sourceTree = "<group>";
 		};
+		3334F9AF2240D50B00AE5D63 /* AVMutableComposition */ = {
+			isa = PBXGroup;
+			children = (
+				3334F9B02240DD6600AE5D63 /* XBAVMutableComposition.swift */,
+			);
+			path = AVMutableComposition;
+			sourceTree = "<group>";
+		};
 		333ED6E321CCCA86009EB829 = {
 			isa = PBXGroup;
 			children = (
@@ -225,6 +235,7 @@
 				33E2FB0521D3189D00A0E099 /* AVPlayer */,
 				332E669D21E861E70049D4C7 /* AVCaptureSession */,
 				33330193223F2F360024A8EA /* AVAudioEngine */,
+				3334F9AF2240D50B00AE5D63 /* AVMutableComposition */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -474,6 +485,7 @@
 				33E2FB1921D3588500A0E099 /* XBVideoPlayerEnum.swift in Sources */,
 				33E2FB1721D3586200A0E099 /* XBVideoPlayerTrackProtocol.swift in Sources */,
 				3330931821CE689E00DB337E /* XBSpeechSynthesizer.swift in Sources */,
+				3334F9B12240DD6600AE5D63 /* XBAVMutableComposition.swift in Sources */,
 				33E2FB2121D3808500A0E099 /* AVPlayerItem+.swift in Sources */,
 				333ED71221CCCDBD009EB829 /* XBAudioPlayer.swift in Sources */,
 				33A3633F21EC1E6800D6DE6D /* XBPreviewView.swift in Sources */,

@@ -31,7 +31,8 @@ final class ViewController: UIViewController {
                              "AVAudioRecorder仿微信演示",
                              "AVPlayer演示",
                              "AVCaptureSession演示",
-                             "AVAudioEngine演示"]
+                             "AVAudioEngine演示",
+                             "AVMutableComposition演示"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +89,22 @@ extension ViewController: UITableViewDelegate {
         case 6:
             let vc = XBAudioEngineController()
             self.navigationController?.pushViewController(vc, animated: true)
+        case 7:
+            
+            let paths = Bundle.main.paths(forResourcesOfType: "mp3", inDirectory: nil)
+                .compactMap { URL(fileURLWithPath: $0) }
+            
+            let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last
+            let exportUrl = URL(string: URL(fileURLWithPath: documentsDirectory ?? "").appendingPathComponent("export.m4a").absoluteString)!
+            XBAVMutableComposition.synthetic(paths, exportUrl: exportUrl) { (e) in
+              
+                if let temE = e {
+                   debugPrint("合成失败")
+                    return
+                }
+                debugPrint("合成成功")
+            }
+            
         default:
             break
         }
