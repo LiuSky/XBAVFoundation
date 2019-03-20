@@ -90,20 +90,8 @@ extension ViewController: UITableViewDelegate {
             let vc = XBAudioEngineController()
             self.navigationController?.pushViewController(vc, animated: true)
         case 7:
-            
-            let paths = Bundle.main.paths(forResourcesOfType: "mp3", inDirectory: nil)
-                .compactMap { URL(fileURLWithPath: $0) }
-            
-            let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last
-            let exportUrl = URL(string: URL(fileURLWithPath: documentsDirectory ?? "").appendingPathComponent("export.m4a").absoluteString)!
-            XBAVMutableComposition.synthetic(paths, exportUrl: exportUrl) { (e) in
-              
-                if let temE = e {
-                   debugPrint("合成失败")
-                    return
-                }
-                debugPrint("合成成功")
-            }
+            let vc = XBAVMutableCompositionC()
+            self.navigationController?.pushViewController(vc, animated: true)
             
         default:
             break
