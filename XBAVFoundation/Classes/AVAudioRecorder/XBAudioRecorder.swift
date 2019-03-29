@@ -31,7 +31,7 @@ open class XBAudioRecorder: NSObject, XBAudioSessionProtocol {
     /// 分贝回调
     public var updateMeters: MetersHandler?
     
-    /// 最大录音时长(默认60)
+    /// 最大录音时长(默认60,如果等于于0就是不限制)
     public var maxRecordTime: TimeInterval = 60.0
     
     /// 音频录音
@@ -111,7 +111,10 @@ extension XBAudioRecorder {
     
     /// 暂停录音
     public func pause() {
-        self.recorder?.record(forDuration: maxRecordTime)
+        
+        if maxRecordTime > 0 {
+           self.recorder?.record(forDuration: maxRecordTime)
+        }
         self.recorder?.pause()
     }
     

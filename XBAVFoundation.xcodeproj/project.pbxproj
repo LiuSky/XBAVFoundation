@@ -33,9 +33,7 @@
 		333ED71821CCCF3B009EB829 /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 333ED71621CCCF3B009EB829 /* 1.mp3 */; };
 		333ED71921CCCF3B009EB829 /* 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 333ED71721CCCF3B009EB829 /* 2.mp3 */; };
 		3345687D22420E6A00E77597 /* XBAVMutableCompositionC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3345687C22420E6A00E77597 /* XBAVMutableCompositionC.swift */; };
-		33456884224212AA00E77597 /* 5.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 33456881224212AA00E77597 /* 5.mp4 */; };
 		334568872242173300E77597 /* WeakProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334568862242173300E77597 /* WeakProxy.swift */; };
-		334568A322425AB700E77597 /* 4.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 334568A222425AB700E77597 /* 4.mp4 */; };
 		33A3633F21EC1E6800D6DE6D /* XBPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A3633E21EC1E6800D6DE6D /* XBPreviewView.swift */; };
 		33E2FB0721D318C900A0E099 /* XBAVPlayerC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E2FB0621D318C900A0E099 /* XBAVPlayerC.swift */; };
 		33E2FB0C21D351AD00A0E099 /* XBPlayerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E2FB0B21D351AD00A0E099 /* XBPlayerLayer.swift */; };
@@ -92,9 +90,7 @@
 		333ED71621CCCF3B009EB829 /* 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1.mp3; sourceTree = "<group>"; };
 		333ED71721CCCF3B009EB829 /* 2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 2.mp3; sourceTree = "<group>"; };
 		3345687C22420E6A00E77597 /* XBAVMutableCompositionC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAVMutableCompositionC.swift; sourceTree = "<group>"; };
-		33456881224212AA00E77597 /* 5.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 5.mp4; sourceTree = "<group>"; };
 		334568862242173300E77597 /* WeakProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakProxy.swift; sourceTree = "<group>"; };
-		334568A222425AB700E77597 /* 4.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 4.mp4; sourceTree = "<group>"; };
 		33A3633E21EC1E6800D6DE6D /* XBPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBPreviewView.swift; sourceTree = "<group>"; };
 		33E2FB0621D318C900A0E099 /* XBAVPlayerC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBAVPlayerC.swift; sourceTree = "<group>"; };
 		33E2FB0B21D351AD00A0E099 /* XBPlayerLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBPlayerLayer.swift; sourceTree = "<group>"; };
@@ -262,8 +258,6 @@
 		333ED71521CCCF15009EB829 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				334568A222425AB700E77597 /* 4.mp4 */,
-				33456881224212AA00E77597 /* 5.mp4 */,
 				3333019E223F74830024A8EA /* 3.Halcyon - Runaway (Feat. Valentina Franco) (Heuse Remix).mp3 */,
 				333ED71621CCCF3B009EB829 /* 1.mp3 */,
 				333ED71721CCCF3B009EB829 /* 2.mp3 */,
@@ -417,9 +411,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33456884224212AA00E77597 /* 5.mp4 in Resources */,
 				333ED71821CCCF3B009EB829 /* 1.mp3 in Resources */,
-				334568A322425AB700E77597 /* 4.mp4 in Resources */,
 				333ED71921CCCF3B009EB829 /* 2.mp3 in Resources */,
 				333ED6FA21CCCA8B009EB829 /* LaunchScreen.storyboard in Resources */,
 				333ED6F721CCCA8B009EB829 /* Assets.xcassets in Resources */,
