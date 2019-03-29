@@ -147,9 +147,7 @@ extension XBAudioRecorderWeChatC {
             sender.setBackgroundImage(UIImage(named: "VoiceBtn_Black")?.resizable, for: .normal)
             sender.setTitle("按住 说话", for: .normal)
             self.voiceRecordHUD.cancelRecordCompled()
-            self.audioRecorder.stop { (com, url) in
-                debugPrint("删除临时文件")
-            }
+            self.audioRecorder.cancel()
             
         } else {
             self.isCancelled = true

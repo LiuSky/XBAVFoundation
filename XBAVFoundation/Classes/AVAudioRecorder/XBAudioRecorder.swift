@@ -51,21 +51,26 @@ open class XBAudioRecorder: NSObject, XBAudioSessionProtocol {
         return DispatchQueue(label: "com.mike.XBAudioRecorder.queue")
     }()
     
-    /// MARK - 录音选项配置
-    /// 1.音频格式(AVFormatIDKey): kAudioFormatMPEG4AAC 默认
-    /// 2.采样率(AVSampleRateKey): 8000, 16000, 220505, 44100 默认16.0kHz
-    /// 3.通道数(AVNumberOfChannelsKey): 1单声道 2 立体声录制 默认1
-    /// 4.编码器位深(AVEncoderBitDepthHintKey): 8-32 默认16
-    /// 5.编码音频质量(AVEncoderAudioQualityKey):  min, low, medium, high, max 默认AVAudioQuality.medium
+
+    ///  MARK - 初始化录音播放器
+    ///
+    /// - Parameters:
+    ///   - settings: 录音配置项
+    ///   - AVSampleRateKey: 1.音频格式(AVFormatIDKey): kAudioFormatMPEG4AAC 默认
+    ///   - AVNumberOfChannelsKey: 2.采样率(AVSampleRateKey): 8000, 16000, 220505, 44100 默认16.0kHz
+    ///   - AVEncoderBitDepthHintKey: 3.通道数(AVNumberOfChannelsKey): 1单声道 2 立体声录制 默认1
+    ///   - AVEncoderAudioQualityKey: 5.编码音频质量(AVEncoderAudioQualityKey):  min, low, medium, high, max 默认AVAudioQuality.medium
+    ///   - url: 录音保存地址
     init(settings: [String : Any] = [AVFormatIDKey: kAudioFormatMPEG4AAC,
                                       AVSampleRateKey: 22050.0,
                                       AVNumberOfChannelsKey: 1,
                                       AVEncoderBitDepthHintKey: 16,
-                                      AVEncoderAudioQualityKey: AVAudioQuality.medium.rawValue]) {
+                                      AVEncoderAudioQualityKey: AVAudioQuality.medium.rawValue],
+         url: URL = getRecorderTemPath()) {
+        
         super.init()
-    
         do {
-            self.recorder = try AVAudioRecorder(url: self.getRecorderTemPath(), settings: settings)
+            self.recorder = try AVAudioRecorder(url: url, settings: settings)
             self.recorder?.delegate = self
             self.recorder?.isMeteringEnabled = true
         } catch (let e) {
@@ -108,6 +113,15 @@ extension XBAudioRecorder {
     public func pause() {
         self.recorder?.record(forDuration: maxRecordTime)
         self.recorder?.pause()
+    }
+    
+    
+    /// 取消录音
+    public func cancel() {
+        
+        self.stop { (is, url) in
+            try? FileManager.default.removeItem(at: url)
+        }
     }
     
     /// 停止录音
@@ -155,7 +169,7 @@ extension XBAudioRecorder {
 extension XBAudioRecorder {
     
     /// 获取录音临时路径
-    private func getRecorderTemPath() -> URL {
+    private static func getRecorderTemPath() -> URL {
         
         let now = Date()
         let dateFormatter = DateFormatter()

@@ -116,8 +116,8 @@ open class XBAVMutableComposition: NSObject {
             let videoAsset = AVURLAsset(url: $0, options: nil)
             let duration = CMTimeRange(start: CMTime.zero, duration: videoAsset.duration)
             
-            debugPrint(position)
             do {
+                
                 // 视频采集通道
                 let videoAssetTrack = videoAsset.tracks(withMediaType: .video).first!
                 // 把采集轨道数据加入到可变轨道之中
@@ -128,10 +128,8 @@ open class XBAVMutableComposition: NSObject {
                 // 加入合成轨道之中
                 try audioTrack.insertTimeRange(duration, of: audioAssetTrack, at: position)
                 
-                debugPrint(videoAsset.duration)
-                
-                position = CMTimeAdd(position, videoAsset.duration)
-                debugPrint(position)
+                /// 不知道为何Swift这边处理会导致合成只有一张图
+                //position = CMTimeAdd(position, videoAsset.duration)
             } catch (let error) {
                 completed(error)
             }
