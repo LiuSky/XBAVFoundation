@@ -70,12 +70,23 @@ open class XBAudioRecorder: NSObject, XBAudioSessionProtocol {
         
         super.init()
         do {
-            self.recorder = try AVAudioRecorder(url: url, settings: settings)
-            self.recorder?.delegate = self
-            self.recorder?.isMeteringEnabled = true
+            recorder = try AVAudioRecorder(url: url, settings: settings)
+            recorder?.delegate = self
+            recorder?.isMeteringEnabled = true
         } catch (let e) {
             assertionFailure(e.localizedDescription)
         }
+    }
+    
+    deinit {
+        
+        stopMeteTimer()
+        removeNotification()
+        if recorder?.isRecording ?? false {
+            recorder?.stop()
+            recorder?.deleteRecording()
+        }
+        debugPrint("释放录音管理类")
     }
 }
 
@@ -105,33 +116,38 @@ extension XBAudioRecorder {
     /// 开始录音
     @discardableResult
     public func record() -> Bool {
-        self.startMeteTimer()
-        return self.recorder?.record() ?? false
+        
+        startMeteTimer()
+        if maxRecordTime > 0 {
+            return recorder?.record(forDuration: maxRecordTime) ?? false
+        } else {
+            return recorder?.record() ?? false
+        }
     }
     
     /// 暂停录音
     public func pause() {
-        
-        if maxRecordTime > 0 {
-           self.recorder?.record(forDuration: maxRecordTime)
-        }
-        self.recorder?.pause()
+        recorder?.pause()
     }
     
     
     /// 取消录音
     public func cancel() {
         
-        self.stop { (is, url) in
-            try? FileManager.default.removeItem(at: url)
+        stop { [weak self] (_, _) in
+            guard let self = self else { return }
+            self.recorder?.deleteRecording()
         }
     }
     
     /// 停止录音
     public func stop(completionHandler: @escaping StopCompletionHandler) {
-        self.stopCompletionHandler = completionHandler
-        self.recorder?.stop()
-        self.stopMeteTimer()
+        
+        if recorder?.isRecording ?? false {
+            recorder?.stop()
+            stopMeteTimer()
+        }
+        stopCompletionHandler = completionHandler
     }
 }
 
@@ -184,22 +200,21 @@ extension XBAudioRecorder {
     /// 更新时间显示
     @objc private func updateTime() {
         
-        self.timerHandler?(self.recorder?.currentTime ?? 0)
+        timerHandler?(recorder?.currentTime ?? 0)
     }
     
     /// 开始计时录音分贝
     private func startMeteTimer() {
-        self.displayLink?.invalidate()
-        self.displayLink = CADisplayLink(target: self, selector: #selector(updateMeter))
-        self.displayLink?.frameInterval = 5
-        self.displayLink?.add(to: RunLoop.current, forMode: .common)
+        displayLink?.invalidate()
+        displayLink = CADisplayLink(target: WeakProxy(target: self), selector: #selector(updateMeter))
+        displayLink?.frameInterval = 5
+        displayLink?.add(to: RunLoop.current, forMode: .common)
     }
     
     /// 停止计时录音分贝
     private func stopMeteTimer() {
-        self.updateMeters?(0)
-        self.displayLink?.invalidate()
-        self.displayLink = nil
+        updateMeters?(0)
+        displayLink?.invalidate()
     }
     
     /// 刷新分贝
@@ -220,7 +235,7 @@ extension XBAudioRecorder {
     
     /// 添加静音二级音频提示通知
     private func addNotification() {
-        
+        removeNotification()
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleSecondaryAudio(notification:)), name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
     }
     
@@ -242,7 +257,7 @@ extension XBAudioRecorder {
         if type == .begin {
             debugPrint("其他应用音频开始播放-静音辅助音频")
         } else {
-            self.prepareToRecord()
+            prepareToRecord()
         }
     }
     
@@ -260,12 +275,12 @@ extension XBAudioRecorder {
 extension XBAudioRecorder: AVAudioRecorderDelegate {
     
     public func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        self.stopCompletionHandler?(flag, recorder.url)
-        self.setActive(false)
+        stopCompletionHandler?(flag, recorder.url)
+        setActive(false)
     }
     
     public func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
         debugPrint("错误")
-        self.setActive(false)
+        setActive(false)
     }
 }

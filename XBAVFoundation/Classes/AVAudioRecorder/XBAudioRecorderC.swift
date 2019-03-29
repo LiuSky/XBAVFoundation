@@ -102,10 +102,12 @@ final class XBAudioRecorderC: UIViewController, XBAudioSessionProtocol {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "录音"
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "返回", style: .plain, target: self, action: #selector(eventForPop))
         self.configView()
         self.updateTimeDisplay()
         self.updateMeter()
     }
+    
     
     /// 配置View
     private func configView() {
@@ -116,6 +118,15 @@ final class XBAudioRecorderC: UIViewController, XBAudioSessionProtocol {
         self.view.addSubview(stopButton)
         self.view.addSubview(pauseButton)
         self.view.addSubview(playButton)
+    }
+    
+    @objc private func eventForPop() {
+        audioRecorder.cancel()
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    deinit {
+        debugPrint("释放录音控制器类")
     }
 }
 
