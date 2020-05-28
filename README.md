@@ -1,7 +1,7 @@
 ## Requirements:
 - **iOS** 9.0+
 - Xcode 10.1+
-- Swift 4.2+
+- Swift 5.0+
 
 ## Example
  To run the XBAVFoundation project </br>
