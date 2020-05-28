@@ -37,5 +37,5 @@ public extension Notification {
     
     
     /// 图片保存到相册通知
-    public static let ThumbnailCreated = Notification.Name(rawValue: "com.mike.camera.notification.name.thumbnailCreated")
+    static let ThumbnailCreated = Notification.Name(rawValue: "com.mike.camera.notification.name.thumbnailCreated")
 }

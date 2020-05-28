@@ -14,7 +14,7 @@ import AVFoundation
 public extension AVPlayerItem {
     
     /// 总缓冲
-    public func totalBuffer() -> Double {
+    func totalBuffer() -> Double {
         return self.loadedTimeRanges
             .map({ $0.timeRangeValue })
             .reduce(0, { acc, cur in
@@ -23,7 +23,7 @@ public extension AVPlayerItem {
     }
     
     /// 当前缓冲
-    public func currentBuffer() -> Double {
+    func currentBuffer() -> Double {
         let currentTime = self.currentTime()
         
         guard let timeRange = self.loadedTimeRanges.map({ $0.timeRangeValue })

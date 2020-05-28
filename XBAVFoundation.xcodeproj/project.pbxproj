@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -435,16 +435,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-XBAVFoundation/Pods-XBAVFoundation-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-XBAVFoundation/Pods-XBAVFoundation-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-XBAVFoundation/Pods-XBAVFoundation-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -668,9 +663,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BU9U9E5458;
+				DEVELOPMENT_TEAM = TA399PG2C9;
 				INFOPLIST_FILE = XBAVFoundation/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -688,9 +683,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BU9U9E5458;
+				DEVELOPMENT_TEAM = TA399PG2C9;
 				INFOPLIST_FILE = XBAVFoundation/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -717,7 +712,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mike.XBAVFoundationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XBAVFoundation.app/XBAVFoundation";
 			};
@@ -738,7 +733,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mike.XBAVFoundationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XBAVFoundation.app/XBAVFoundation";
 			};

@@ -92,7 +92,7 @@ extension XBCameraController {
     public var torchMode: AVCaptureDevice.TorchMode {
         set {
             
-            if self.activeCamera.torchMode != torchMode &&
+            if self.activeCamera.torchMode != newValue &&
                 self.activeCamera.isTorchModeSupported(torchMode) {
                 
                 do {
@@ -114,7 +114,7 @@ extension XBCameraController {
     public var flashMode: AVCaptureDevice.FlashMode {
         set {
             
-            if self.activeCamera.flashMode != flashMode &&
+            if self.activeCamera.flashMode != newValue &&
                 self.activeCamera.isFlashModeSupported(flashMode) {
                
                 do {
@@ -509,7 +509,7 @@ extension XBCameraController {
         
         let library = ALAssetsLibrary()
         library.writeImage(toSavedPhotosAlbum: image.cgImage!, orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue) ?? ALAssetOrientation.up) { (url, error) in
-            if let error = error {
+            if error != nil {
                 debugPrint("保存失败")
             } else {
                 debugPrint("通知")

@@ -109,7 +109,7 @@ open class XBAVMutableComposition: NSObject {
         
         let audioTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
         
-        var position: CMTime = CMTime.zero
+        let position: CMTime = CMTime.zero
         
         urls.forEach {
             

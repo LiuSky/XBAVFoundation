@@ -169,7 +169,7 @@ open class XBVideoPlayer: NSObject {
     /// 音量
     public var volume: Float {
         set {
-            self.player?.volume = min(max(0, volume), 1)
+            self.player?.volume = min(max(0, newValue), 1)
         }
         get {
             return self.player?.volume ?? 0
@@ -179,7 +179,7 @@ open class XBVideoPlayer: NSObject {
     /// 指示播放器的音频输出是否静音,只影响音频静音的播放器实例，而不是设备
     public var isMuted: Bool {
         set {
-            self.player?.isMuted = isMuted
+            self.player?.isMuted = newValue
         }
         get {
             return self.player?.isMuted ?? false
